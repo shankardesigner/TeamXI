@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+*.log
+
+# OS
+.DS_Store
+
+# Data (not pushed — rebuild with pipeline/, see README)
+/data/
