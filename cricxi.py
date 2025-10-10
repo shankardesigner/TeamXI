@@ -282,3 +282,130 @@ def _calculate_opponent_bowling_strength(bowling_df: pd.DataFrame) -> pd.DataFra
             "bowling_strength_norm",
         ]
     ]
+
+
+# ---------------------------------------------------------------------------
+# XI Selection Engine
+# ---------------------------------------------------------------------------
+
+
+class XISelector:
+    """Generate predicted playing XIs using batting and bowling heuristics."""
+
+    _T20_RATINGS: Dict[str, int] = {
+        "India": 272,
+        "Australia": 267,
+        "England": 258,
+        "New Zealand": 251,
+        "South Africa": 240,
+        "West Indies": 237,
+        "Pakistan": 234,
+        "Sri Lanka": 230,
+        "Bangladesh": 223,
+        "Afghanistan": 220,
+        "Ireland": 201,
+        "Zimbabwe": 199,
+        "Netherlands": 182,
+        "Scotland": 182,
+        "Namibia": 181,
+        "United Arab Emirates": 178,
+        "Nepal": 176,
+        "United States": 175,
+        "Canada": 154,
+        "Oman": 150,
+        "Uganda": 142,
+        "PNG": 136,
+    }
+
+    def __init__(self, root_dir: Optional[Path] = None) -> None:
+        base_path = Path(root_dir) if root_dir else Path(__file__).resolve().parent
+        self.root_dir = base_path
+        self.data_dir = self.root_dir / "data" / "proceed"
+
+        # Load datasets
+        self.batting_raw = self._load_csv("player_features_batting.csv")
+        self.batting_form = self._load_csv("player_features_batting_form.csv")
+        self.bowling_raw = self._load_csv("player_features_bowling.csv")
+        self.bowling_form = self._load_csv("player_features_bowling_form.csv")
+
+        self.batting_raw["match_type"] = self.batting_raw["match_type"].str.upper()
+        self.batting_form["match_type"] = self.batting_form["match_type"].str.upper()
+        self.bowling_raw["match_type"] = self.bowling_raw["match_type"].str.upper()
+        self.bowling_form["match_type"] = self.bowling_form["match_type"].str.upper()
+
+        # Derived data
+        self.venue_effects = _calculate_dynamic_venue_effects(self.batting_raw)
+        self.player_profiles = _create_dynamic_player_profiles(self.batting_raw)
+        self.bowling_strength_df = _calculate_opponent_bowling_strength(self.bowling_raw)
+
+        self._venue_lookup = self.venue_effects.set_index("venue").to_dict("index")
+        self._profile_lookup = self.player_profiles.set_index("player_id").to_dict("index")
+
+        strength_df = self.bowling_strength_df.copy()
+        strength_df["opponent_team_norm"] = strength_df["opponent_team"].str.strip().str.title()
+        strength_df["match_type"] = strength_df["match_type"].str.upper()
+        self._bowling_strength_lookup = strength_df.groupby(
+            ["opponent_team_norm", "match_type"]
+        )["bowling_strength_norm"].mean().to_dict()
+
+        self._team_cache: Dict[str, Dict[str, List[str]]] = {}
+        self._active_player_lookup = self._load_active_players()
+
+    @staticmethod
+    def _normalise_team(value: str) -> str:
+        return (value or "").strip().lower()
+
+    @staticmethod
+    def _normalise_name(value: str) -> str:
+        return (value or "").strip().lower()
+
+    def _load_active_players(self) -> Dict[Tuple[str, str], Dict[str, Dict[str, Any]]]:
+        lookup: Dict[Tuple[str, str], Dict[str, Dict[str, Any]]] = {}
+        path = self.root_dir / "data" / "players" / "active_players.json"
+        if not path.exists():
+            return lookup
+        try:
+            with path.open("r", encoding="utf-8") as handle:
+                raw = json.load(handle)
+        except Exception:
+            return lookup
+
+        for team_name, formats in raw.items():
+            team_key = self._normalise_team(team_name)
+            if not isinstance(formats, dict):
+                continue
+            for fmt, players in formats.items():
+                if not isinstance(players, list):
+                    continue
+                key = (team_key, str(fmt).lower())
+                info: Dict[str, Dict[str, Any]] = {}
+                for player in players:
+                    if not isinstance(player, dict):
+                        continue
+                    name = player.get("name")
+                    if not name:
+                        continue
+                    norm_name = self._normalise_name(name)
+                    info[norm_name] = player
+                if info:
+                    lookup[key] = info
+        return lookup
+
+    def _get_active_info(self, team: str, match_type: str) -> Dict[str, Dict[str, Any]]:
+        team_key = self._normalise_team(team)
+        fmt_key = match_type.lower()
+        return self._active_player_lookup.get((team_key, fmt_key), {})
+
+    def _get_active_names(self, team: str, match_type: str) -> set[str]:
+        return set(self._get_active_info(team, match_type).keys())
+
+    # ------------------------------------------------------------------
+    # Core processing
+    # ------------------------------------------------------------------
+
+    def _load_csv(self, filename: str) -> pd.DataFrame:
+        path = self.data_dir / filename
+        df = pd.read_csv(path)
+        if "date" in df.columns:
+            df["date"] = pd.to_datetime(df["date"], errors="coerce")
+        return df
