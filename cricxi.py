@@ -128,3 +128,61 @@ def _calculate_dynamic_venue_effects(df: pd.DataFrame) -> pd.DataFrame:
         venue_stats["venue_factor"] + venue_stats["venue_factor_cat"]
     ) / 2
     return venue_stats[["venue", "venue_type", "final_venue_factor", "match_count"]]
+
+
+def _create_dynamic_player_profiles(df: pd.DataFrame) -> pd.DataFrame:
+    player_profiles = (
+        df.groupby("player_id")
+        .agg(
+            {
+                "player_name": "last",
+                "runs_scored": ["mean", "max", "std", "count"],
+                "strike_rate": "mean",
+                "batting_position": ["mean", "min", "max"],
+                "boundaries": "mean",
+                "sixes": "mean",
+            }
+        )
+        .round(2)
+    )
+    player_profiles.columns = [
+        "name",
+        "avg_runs",
+        "max_runs",
+        "std_runs",
+        "matches_played",
+        "avg_strike_rate",
+        "avg_position",
+        "min_position",
+        "max_position",
+        "avg_boundaries",
+        "avg_sixes",
+    ]
+    player_profiles = player_profiles.reset_index()
+
+    def _classify(row: pd.Series) -> str:
+        matches = row["matches_played"]
+        avg_runs = row["avg_runs"]
+        position = row["avg_position"]
+        sr = row["avg_strike_rate"]
+
+        if matches < 5:
+            return "New Player"
+        if avg_runs > 45 and position <= 3:
+            return "World-Class Top Order"
+        if avg_runs > 35 and position <= 3:
+            return "Solid Top Order"
+        if avg_runs > 30 and position <= 4:
+            return "Reliable Top/Middle"
+        if avg_runs > 25 and position <= 6:
+            return "Dependable Middle Order"
+        if position >= 7 and sr > 135:
+            return "Power Finisher"
+        if sr > 140:
+            return "Hard-Hitting Finisher"
+        if position >= 6:
+            return "Bowling All-Rounder"
+        return "Utility Batter"
+
+    player_profiles["player_type"] = player_profiles.apply(_classify, axis=1)
+    return player_profiles
