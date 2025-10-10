@@ -400,6 +400,32 @@ class XISelector:
         return set(self._get_active_info(team, match_type).keys())
 
     # ------------------------------------------------------------------
+    # Public APIs
+    # ------------------------------------------------------------------
+
+    def list_teams(self, match_type: str) -> List[str]:
+        fmt = match_type.upper()
+        if fmt not in self._team_cache:
+            batting_teams = self.batting_raw[self.batting_raw["match_type"] == fmt][
+                "batting_team"
+            ].unique()
+            bowling_teams = self.bowling_raw[self.bowling_raw["match_type"] == fmt][
+                "bowling_team"
+            ].unique()
+            teams = sorted(set(batting_teams).union(set(bowling_teams)))
+            self._team_cache[fmt] = {"teams": teams}
+        return self._team_cache[fmt]["teams"]
+
+    def list_venues(self, match_type: str, teams: Optional[Iterable[str]] = None) -> List[str]:
+        fmt = match_type.upper()
+        df = self.batting_raw[self.batting_raw["match_type"] == fmt]
+        if teams:
+            teams_set = set(teams)
+            df = df[df["batting_team"].isin(teams_set) | df["opponent_team"].isin(teams_set)]
+        venue_counts = df["venue"].value_counts().sort_values(ascending=False)
+        return venue_counts.index.tolist()
+
+    # ------------------------------------------------------------------
     # Core processing
     # ------------------------------------------------------------------
 
@@ -409,3 +435,24 @@ class XISelector:
         if "date" in df.columns:
             df["date"] = pd.to_datetime(df["date"], errors="coerce")
         return df
+
+    def _filter_recent(
+        self,
+        df: pd.DataFrame,
+        team_col: str,
+        team: str,
+        match_type: str,
+        as_of: Optional[pd.Timestamp],
+        window_years: int = 1,
+    ) -> pd.DataFrame:
+        fmt = match_type.upper()
+        reference_date = as_of.normalize() if as_of is not None else pd.Timestamp.today().normalize()
+        start_date = reference_date - pd.DateOffset(years=window_years)
+        subset = df[
+            (df[team_col] == team)
+            & (df["match_type"] == fmt)
+            & (df["date"] >= start_date)
+            & (df["date"] <= reference_date)
+        ].copy()
+        subset.sort_values("date", inplace=True)
+        return subset
