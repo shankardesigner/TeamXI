@@ -75,3 +75,56 @@ class PlayerProjection:
             else float(self.bowling_recent),
             "headshot_url": self.headshot_url,
         }
+
+
+# ---------------------------------------------------------------------------
+# Feature engineering helpers (ported from the modelling notebooks)
+# ---------------------------------------------------------------------------
+
+
+def _calculate_dynamic_venue_effects(df: pd.DataFrame) -> pd.DataFrame:
+    venue_stats = (
+        df.groupby("venue")
+        .agg(
+            {
+                "runs_scored": ["mean", "std", "count"],
+                "strike_rate": "mean",
+                "boundaries": "mean",
+                "sixes": "mean",
+            }
+        )
+        .round(2)
+    )
+    venue_stats.columns = [
+        "venue_avg_runs",
+        "venue_std_runs",
+        "match_count",
+        "venue_avg_sr",
+        "venue_avg_boundaries",
+        "venue_avg_sixes",
+    ]
+    venue_stats = venue_stats.reset_index()
+
+    overall_avg_runs = df["runs_scored"].mean()
+
+    def _categorise(row: pd.Series) -> Tuple[str, float]:
+        if row["match_count"] < 5:
+            return "Neutral", 1.0
+        if row["venue_avg_runs"] >= overall_avg_runs * 1.15:
+            return "High Scoring", 1.3
+        if row["venue_avg_runs"] >= overall_avg_runs * 1.05:
+            return "Batter Friendly", 1.15
+        if row["venue_avg_runs"] <= overall_avg_runs * 0.85:
+            return "Bowler Friendly", 0.8
+        if row["venue_avg_runs"] <= overall_avg_runs * 0.95:
+            return "Balanced", 0.9
+        return "Neutral", 1.0
+
+    venue_stats[["venue_type", "venue_factor_cat"]] = venue_stats.apply(
+        lambda x: pd.Series(_categorise(x)), axis=1
+    )
+    venue_stats["venue_factor"] = venue_stats["venue_avg_runs"] / overall_avg_runs
+    venue_stats["final_venue_factor"] = (
+        venue_stats["venue_factor"] + venue_stats["venue_factor_cat"]
+    ) / 2
+    return venue_stats[["venue", "venue_type", "final_venue_factor", "match_count"]]
