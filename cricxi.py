@@ -186,3 +186,99 @@ def _create_dynamic_player_profiles(df: pd.DataFrame) -> pd.DataFrame:
 
     player_profiles["player_type"] = player_profiles.apply(_classify, axis=1)
     return player_profiles
+
+
+def _calculate_opponent_bowling_strength(bowling_df: pd.DataFrame) -> pd.DataFrame:
+    df = bowling_df.copy()
+    df["date"] = pd.to_datetime(df["date"])
+    df = df.sort_values(["opponent_team", "match_type", "date"])
+
+    grp_cols = ["opponent_team", "match_type", "date", "match_id", "venue"]
+    match_stats = (
+        df.groupby(grp_cols)
+        .agg(
+            {
+                "runs_conceded": "sum",
+                "balls_bowled": "sum",
+                "wickets_taken": "sum",
+                "dot_balls": "sum",
+                "overs_bowled": "sum",
+            }
+        )
+        .reset_index()
+    )
+
+    match_stats["economy_rate"] = (
+        match_stats["runs_conceded"] / match_stats["overs_bowled"].replace(0, np.nan)
+    ).fillna(6.5)
+    match_stats["wickets_per_match"] = match_stats["wickets_taken"]
+    match_stats["dot_ball_pct"] = (
+        match_stats["dot_balls"] / match_stats["balls_bowled"].replace(0, np.nan) * 100
+    ).fillna(25.0)
+
+    def _rolling(series: pd.Series) -> pd.Series:
+        return series.rolling(5, min_periods=1).mean()
+
+    group_keys = ["opponent_team", "match_type"]
+    match_stats["economy_last_5"] = match_stats.groupby(group_keys)["economy_rate"].transform(_rolling)
+    match_stats["wickets_last_5"] = match_stats.groupby(group_keys)["wickets_per_match"].transform(_rolling)
+    match_stats["dot_pct_last_5"] = match_stats.groupby(group_keys)["dot_ball_pct"].transform(_rolling)
+
+    venue_stats = (
+        match_stats.groupby(["opponent_team", "match_type", "venue"])
+        .agg(
+            {
+                "economy_rate": "mean",
+                "wickets_per_match": "mean",
+                "dot_ball_pct": "mean",
+            }
+        )
+        .reset_index()
+    )
+    venue_stats.columns = [
+        "opponent_team",
+        "match_type",
+        "venue",
+        "venue_economy",
+        "venue_wickets",
+        "venue_dot_pct",
+    ]
+
+    match_stats = match_stats.merge(
+        venue_stats, on=["opponent_team", "match_type", "venue"], how="left"
+    )
+
+    for col, fallback in [
+        ("venue_economy", match_stats["economy_rate"].mean()),
+        ("venue_wickets", match_stats["wickets_per_match"].mean()),
+        ("venue_dot_pct", match_stats["dot_ball_pct"].mean()),
+    ]:
+        match_stats[col] = match_stats[col].fillna(fallback)
+
+    match_stats["bowling_strength_raw"] = (
+        (1 - (match_stats["economy_last_5"] / 12.0)) * 0.4
+        + (match_stats["wickets_last_5"] / 10.0) * 0.3
+        + (match_stats["dot_pct_last_5"] / 50.0) * 0.3
+    )
+
+    min_val = match_stats["bowling_strength_raw"].min()
+    max_val = match_stats["bowling_strength_raw"].max()
+    scale = max(max_val - min_val, 1e-6)
+    match_stats["bowling_strength_norm"] = (match_stats["bowling_strength_raw"] - min_val) / scale
+
+    return match_stats[
+        [
+            "opponent_team",
+            "match_type",
+            "date",
+            "match_id",
+            "venue",
+            "economy_last_5",
+            "wickets_last_5",
+            "dot_pct_last_5",
+            "venue_economy",
+            "venue_wickets",
+            "venue_dot_pct",
+            "bowling_strength_norm",
+        ]
+    ]
