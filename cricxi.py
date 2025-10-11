@@ -425,6 +425,21 @@ class XISelector:
         venue_counts = df["venue"].value_counts().sort_values(ascending=False)
         return venue_counts.index.tolist()
 
+    def generate_match_xi(
+        self,
+        team_a: str,
+        team_b: str,
+        match_type: str,
+        venue: str,
+        as_of: Optional[pd.Timestamp] = None,
+    ) -> Tuple[
+        Tuple[List[PlayerProjection], List[PlayerProjection]],
+        Tuple[List[PlayerProjection], List[PlayerProjection]],
+    ]:
+        lineup_a = self._generate_team_xi(team_a, team_b, match_type, venue, as_of)
+        lineup_b = self._generate_team_xi(team_b, team_a, match_type, venue, as_of)
+        return lineup_a, lineup_b
+
     # ------------------------------------------------------------------
     # Core processing
     # ------------------------------------------------------------------
@@ -456,6 +471,50 @@ class XISelector:
         ].copy()
         subset.sort_values("date", inplace=True)
         return subset
+
+    def _generate_team_xi(
+        self,
+        team: str,
+        opponent: str,
+        match_type: str,
+        venue: str,
+        as_of: Optional[pd.Timestamp],
+    ) -> Tuple[List[PlayerProjection], List[PlayerProjection]]:
+        batting_recent = self._filter_recent(
+            self.batting_form, "batting_team", team, match_type, as_of
+        )
+        bowling_recent = self._filter_recent(
+            self.bowling_form, "bowling_team", team, match_type, as_of
+        )
+
+        if batting_recent.empty and bowling_recent.empty:
+            return ([], [])
+
+        candidate_ids = sorted(
+            set(batting_recent["player_id"].unique()).union(bowling_recent["player_id"].unique())
+        )
+
+        active_lookup = self._get_active_info(team, match_type)
+
+        projections: List[PlayerProjection] = []
+        for player_id in candidate_ids:
+            projection = self._build_projection(
+                player_id,
+                team=team,
+                opponent=opponent,
+                match_type=match_type,
+                venue=venue,
+                batting_recent=batting_recent,
+                bowling_recent=bowling_recent,
+                active_lookup=active_lookup,
+            )
+            if projection is not None:
+                projections.append(projection)
+
+        if not projections:
+            return ([], [])
+
+        return self._select_best_eleven(projections)
 
     def _build_projection(
         self,
@@ -908,3 +967,8 @@ class XISelector:
             )
         )
         return selected, bench
+
+
+__all__ = ["XISelector", "PlayerProjection"]
+
+
