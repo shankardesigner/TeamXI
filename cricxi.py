@@ -555,3 +555,140 @@ class XISelector:
         if position <= 6.0:
             return "Middle Batter"
         return "Batting All-Rounder" if matches_bowled > 0 else "Lower Batter"
+
+    # ------------------------------------------------------------------
+    # Prediction heuristics (adapted from prototypes)
+    # ------------------------------------------------------------------
+
+    def _predict_batting(
+        self,
+        player_id: str,
+        opponent_team: str,
+        venue: str,
+        match_type: str,
+        batting_position: int,
+    ) -> Optional[float]:
+        df = self.batting_raw[self.batting_raw["player_id"] == player_id].sort_values("date")
+        if df.empty:
+            return None
+
+        player_avg = df["runs_scored"].mean()
+        player_recent = df.tail(10)["runs_scored"].mean()
+        base_prediction = max(player_avg, player_recent)
+
+        profile = self._profile_lookup.get(player_id)
+        if profile:
+            player_type = profile.get("player_type", "Unknown")
+            avg_runs = profile.get("avg_runs", player_avg)
+            player_name = profile.get("name", player_id)
+        else:
+            player_type = "Unknown"
+            avg_runs = player_avg
+            player_name = df["player_name"].iloc[-1]
+
+        quality_bonus = 0.0
+        if "World-Class" in player_type:
+            quality_bonus = 8.0
+        elif "Solid" in player_type or "Reliable" in player_type:
+            quality_bonus = 4.0
+        elif "Dependable" in player_type:
+            quality_bonus = 2.0
+        elif "Hard-Hitting" in player_type or "Power Finisher" in player_type:
+            quality_bonus = 3.0
+        elif "Bowling All-Rounder" in player_type:
+            quality_bonus = 1.0
+
+        base_prediction = max(base_prediction, avg_runs) + quality_bonus
+
+        opponent_norm = opponent_team.strip().title()
+        strength_key = (opponent_norm, match_type.upper())
+        opponent_strength = self._bowling_strength_lookup.get(strength_key)
+        strength_source = "data"
+
+        if opponent_strength is None:
+            # fallbacks based on tiers
+            major = {"Australia", "India", "England", "New Zealand", "South Africa", "Pakistan"}
+            strong = {"Sri Lanka", "West Indies", "Bangladesh"}
+            associate = {
+                "United States",
+                "United States Of America",
+                "Netherlands",
+                "Ireland",
+                "Scotland",
+                "Uae",
+                "Canada",
+                "Oman",
+                "Nepal",
+            }
+            if opponent_norm in major:
+                opponent_strength = 0.7
+                strength_source = "major tier"
+            elif opponent_norm in strong:
+                opponent_strength = 0.6
+                strength_source = "strong tier"
+            elif opponent_norm in associate:
+                opponent_strength = 0.4
+                strength_source = "associate tier"
+            else:
+                opponent_strength = 0.5
+                strength_source = "default"
+
+        opponent_factor = 1.0 + (0.5 - opponent_strength)
+        if opponent_strength > 0.7:
+            opponent_factor *= 0.8
+        elif opponent_strength > 0.6:
+            opponent_factor *= 0.9
+        elif opponent_strength < 0.3:
+            opponent_factor *= 1.4
+        elif opponent_strength < 0.4:
+            opponent_factor *= 1.2
+
+        venue_info = self._venue_lookup.get(venue, {"final_venue_factor": 1.0, "venue_type": "Neutral"})
+        venue_factor = venue_info.get("final_venue_factor", 1.0)
+
+        if batting_position <= 2:
+            position_factor = 1.3
+        elif batting_position <= 4:
+            position_factor = 1.2
+        elif batting_position <= 6:
+            position_factor = 1.0
+        else:
+            position_factor = 0.75
+
+        recent_series = df["runs_scored"]
+        recent_5 = recent_series.tail(5).mean()
+        recent_15 = recent_series.tail(15).mean()
+        if np.isnan(recent_5):
+            recent_5 = player_avg
+        if np.isnan(recent_15):
+            recent_15 = player_avg
+        recent_form = recent_5 - recent_15
+
+        if recent_form > 15:
+            form_factor = 1.3
+        elif recent_form > 8:
+            form_factor = 1.15
+        elif recent_form < -15:
+            form_factor = 0.7
+        elif recent_form < -8:
+            form_factor = 0.85
+        else:
+            form_factor = 1.0
+
+        realistic_float = (
+            base_prediction * opponent_factor * venue_factor * position_factor * form_factor
+        )
+
+        if realistic_float >= 80:
+            runs_predicted = realistic_float
+        elif realistic_float >= 50:
+            runs_predicted = round(realistic_float / 5) * 5
+        elif realistic_float >= 25:
+            runs_predicted = round(realistic_float / 2) * 2
+        else:
+            runs_predicted = round(realistic_float)
+
+        if "World-Class" in player_type and runs_predicted < 20:
+            runs_predicted = max(20, runs_predicted)
+
+        return max(runs_predicted, 0)
