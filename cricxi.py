@@ -456,3 +456,102 @@ class XISelector:
         ].copy()
         subset.sort_values("date", inplace=True)
         return subset
+
+    def _build_projection(
+        self,
+        player_id: str,
+        team: str,
+        opponent: str,
+        match_type: str,
+        venue: str,
+        batting_recent: pd.DataFrame,
+        bowling_recent: pd.DataFrame,
+        active_lookup: Dict[str, Dict[str, Any]],
+    ) -> Optional[PlayerProjection]:
+        bat_df = batting_recent[batting_recent["player_id"] == player_id]
+        bowl_df = bowling_recent[bowling_recent["player_id"] == player_id]
+
+        if bat_df.empty and bowl_df.empty:
+            return None
+
+        player_name = None
+        if not bat_df.empty:
+            player_name = bat_df["player_name"].iloc[-1]
+        elif not bowl_df.empty:
+            player_name = bowl_df["player_name"].iloc[-1]
+        else:
+            player_name = player_id
+
+        avg_pos = bat_df["batting_position"].mean() if not bat_df.empty else None
+        avg_overs = bowl_df["overs_bowled"].mean() if not bowl_df.empty else None
+
+        matches_batted = bat_df["match_id"].nunique() if not bat_df.empty else 0
+        matches_bowled = bowl_df["match_id"].nunique() if not bowl_df.empty else 0
+
+        batting_recent_avg = (
+            bat_df.tail(5)["runs_scored"].mean() if not bat_df.empty else None
+        )
+        bowling_recent_avg = (
+            bowl_df.tail(5)["wickets_taken"].mean() if not bowl_df.empty else None
+        )
+
+        avg_wickets = bowl_df["wickets_taken"].mean() if not bowl_df.empty else 0.0
+
+        role = self._classify_role(avg_pos, avg_overs, avg_wickets, matches_bowled)
+
+        normalized_name = self._normalise_name(player_name)
+        headshot_url = None
+        active_record = active_lookup.get(normalized_name) if active_lookup else None
+        if active_record:
+            raw_headshot = active_record.get("headshotImageUrl")
+            if isinstance(raw_headshot, str) and raw_headshot.strip():
+                headshot_url = raw_headshot.strip().lstrip("/")
+
+        predicted_runs: Optional[float] = None
+        if not bat_df.empty:
+            tentative_position = int(round(avg_pos)) if avg_pos and not math.isnan(avg_pos) else 5
+            predicted_runs = self._predict_batting(
+                player_id, opponent, venue, match_type, tentative_position
+            )
+
+        predicted_wickets: Optional[float] = None
+        if not bowl_df.empty:
+            predicted_wickets = self._predict_bowling(player_id, opponent, venue, match_type)
+
+        return PlayerProjection(
+            player_id=player_id,
+            player_name=player_name,
+            team=team,
+            opponent=opponent,
+            match_type=match_type,
+            role=role,
+            predicted_runs=predicted_runs,
+            predicted_wickets=predicted_wickets,
+            avg_batting_position=avg_pos,
+            avg_overs=avg_overs,
+            matches_batted=matches_batted,
+            matches_bowled=matches_bowled,
+            batting_recent=batting_recent_avg,
+            bowling_recent=bowling_recent_avg,
+            headshot_url=headshot_url,
+        )
+
+    def _classify_role(
+        self,
+        avg_position: Optional[float],
+        avg_overs: Optional[float],
+        avg_wickets: float,
+        matches_bowled: int,
+    ) -> str:
+        overs = avg_overs or 0.0
+        position = avg_position if avg_position is not None else 7.0
+
+        if matches_bowled >= 3 and (overs >= 3.0 or avg_wickets >= 1.2):
+            return "Bowler"
+        if matches_bowled >= 2 and (overs >= 1.5 or avg_wickets >= 0.6):
+            return "All-Rounder"
+        if position <= 4.0:
+            return "Top Batter"
+        if position <= 6.0:
+            return "Middle Batter"
+        return "Batting All-Rounder" if matches_bowled > 0 else "Lower Batter"
