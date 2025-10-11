@@ -777,3 +777,134 @@ class XISelector:
             wickets_predicted = 1
 
         return float(wickets_predicted)
+
+    # ------------------------------------------------------------------
+    # Selection logic
+    # ------------------------------------------------------------------
+
+    def _select_best_eleven(
+        self, projections: List[PlayerProjection]
+    ) -> Tuple[List[PlayerProjection], List[PlayerProjection]]:
+        if len(projections) <= 11:
+            return projections, []
+
+        team_name = projections[0].team if projections else ""
+        match_type = projections[0].match_type if projections else "T20"
+        active_info = self._get_active_info(team_name, match_type)
+        active_names = set(active_info.keys())
+
+        def is_active(player: PlayerProjection) -> bool:
+            return self._normalise_name(player.player_name) in active_names
+
+        def player_score(player: PlayerProjection) -> float:
+            bat = player.predicted_runs or 0.0
+            bowl = (player.predicted_wickets or 0.0) * 18.0
+            activity = 1.0
+            if (player.matches_batted or 0) >= 10 or (player.matches_bowled or 0) >= 10:
+                activity *= 1.08
+            else:
+                activity *= 0.94
+            if is_active(player):
+                activity *= 1.12
+            else:
+                activity *= 0.85
+            if player.batting_recent is not None and player.predicted_runs:
+                diff = player.batting_recent - player.predicted_runs
+                if diff > 8:
+                    activity *= 1.04
+                elif diff < -8:
+                    activity *= 0.92
+            if player.bowling_recent is not None and player.predicted_wickets:
+                diff = player.bowling_recent - player.predicted_wickets
+                if diff > 0.3:
+                    activity *= 1.03
+                elif diff < -0.3:
+                    activity *= 0.92
+            return (bat + bowl) * activity
+
+        def avg_position(player: PlayerProjection) -> float:
+            return player.avg_batting_position if player.avg_batting_position is not None else 8.5
+
+        def is_keeper(player: PlayerProjection) -> bool:
+            role = (player.role or "").lower()
+            return "wicket" in role
+
+        def is_allrounder(player: PlayerProjection) -> bool:
+            role = (player.role or "").lower()
+            return "all-rounder" in role or "allrounder" in role
+
+        def is_bowler(player: PlayerProjection) -> bool:
+            role = (player.role or "").lower()
+            overs = player.avg_overs or 0.0
+            wickets = player.predicted_wickets or 0.0
+            return "bowler" in role or overs >= 2.5 or wickets >= 1.0
+
+        def is_top_order(player: PlayerProjection) -> bool:
+            return avg_position(player) <= 3.5
+
+        def is_middle_order(player: PlayerProjection) -> bool:
+            pos = avg_position(player)
+            return 3.5 < pos <= 5.5
+
+        def is_finisher(player: PlayerProjection) -> bool:
+            pos = avg_position(player)
+            role = (player.role or "").lower()
+            return pos <= 7.2 or "finisher" in role or is_allrounder(player)
+
+        scores = {p.player_id: player_score(p) for p in projections}
+
+        def score_of(player: PlayerProjection) -> float:
+            return scores.get(player.player_id, 0.0)
+
+        sorted_by_score = sorted(
+            projections,
+            key=lambda p: (0 if is_active(p) else 1, -score_of(p)),
+        )
+
+        selected: List[PlayerProjection] = []
+        selected_ids: set[str] = set()
+
+        def ensure_category(predicate, needed: int) -> None:
+            current = sum(1 for p in selected if predicate(p))
+            if current >= needed:
+                return
+            for cand in sorted_by_score:
+                if cand.player_id in selected_ids:
+                    continue
+                if predicate(cand):
+                    selected.append(cand)
+                    selected_ids.add(cand.player_id)
+                    current += 1
+                    if current >= needed:
+                        break
+
+        ensure_category(is_top_order, 3)
+        ensure_category(is_keeper, 1)
+        ensure_category(is_middle_order, 2)
+        ensure_category(is_allrounder, 1)
+        ensure_category(is_bowler, 3)
+        ensure_category(is_finisher, 1)
+
+        for cand in sorted_by_score:
+            if len(selected) >= 11:
+                break
+            if cand.player_id in selected_ids:
+                continue
+            selected.append(cand)
+            selected_ids.add(cand.player_id)
+
+        if len(selected) > 11:
+            selected.sort(key=lambda p: (avg_position(p), -score_of(p)))
+            selected = selected[:11]
+            selected_ids = {p.player_id for p in selected}
+
+        remaining = [p for p in projections if p.player_id not in selected_ids]
+        bench = sorted(remaining, key=score_of, reverse=True)[:15]
+
+        selected.sort(
+            key=lambda p: (
+                avg_position(p),
+                -score_of(p),
+            )
+        )
+        return selected, bench
