@@ -692,3 +692,88 @@ class XISelector:
             runs_predicted = max(20, runs_predicted)
 
         return max(runs_predicted, 0)
+
+    def _predict_bowling(
+        self,
+        player_id: str,
+        opponent_team: str,
+        venue: str,
+        match_type: str,
+    ) -> Optional[float]:
+        df = self.bowling_raw[self.bowling_raw["player_id"] == player_id].sort_values("date")
+        if df.empty:
+            return None
+
+        player_avg = df["wickets_taken"].mean()
+        player_recent = df.tail(10)["wickets_taken"].mean()
+        base_prediction = max(player_avg, player_recent)
+
+        elite_bonus = 0.0
+        if player_avg > 2.0:
+            elite_bonus = 0.5
+        elif player_avg > 1.5:
+            elite_bonus = 0.3
+
+        base_prediction += elite_bonus
+
+        opponent_strength = self._T20_RATINGS.get(opponent_team.title(), 180)
+        if opponent_strength >= 250:
+            opponent_factor = 0.6
+        elif opponent_strength >= 220:
+            opponent_factor = 0.8
+        elif opponent_strength >= 190:
+            opponent_factor = 1.0
+        elif opponent_strength >= 170:
+            opponent_factor = 1.3
+        else:
+            opponent_factor = 1.6
+
+        venue_upper = venue.lower()
+        if "melbourne" in venue_upper or "mcg" in venue_upper:
+            venue_factor = 1.2
+        elif "perth" in venue_upper or "waca" in venue_upper:
+            venue_factor = 1.3
+        elif "chennai" in venue_upper or "mumbai" in venue_upper:
+            venue_factor = 0.9
+        else:
+            venue_factor = 1.0
+
+        recent_series = df["wickets_taken"]
+        recent_5 = recent_series.tail(5).mean()
+        recent_15 = recent_series.tail(15).mean()
+        if np.isnan(recent_5):
+            recent_5 = player_avg
+        if np.isnan(recent_15):
+            recent_15 = player_avg
+        recent_form = recent_5 - recent_15
+
+        if recent_form > 0.5:
+            form_factor = 1.4
+        elif recent_form > 0.2:
+            form_factor = 1.2
+        elif recent_form < -0.5:
+            form_factor = 0.6
+        elif recent_form < -0.2:
+            form_factor = 0.8
+        else:
+            form_factor = 1.0
+
+        realistic_float = base_prediction * opponent_factor * venue_factor * form_factor
+
+        if realistic_float >= 4.6:
+            wickets_predicted = 5
+        elif realistic_float >= 3.5:
+            wickets_predicted = 4
+        elif realistic_float >= 2.7:
+            wickets_predicted = 3
+        elif realistic_float >= 1.8:
+            wickets_predicted = 2
+        elif realistic_float >= 0.8:
+            wickets_predicted = 1
+        else:
+            wickets_predicted = 0
+
+        if player_avg > 1.8 and wickets_predicted == 0:
+            wickets_predicted = 1
+
+        return float(wickets_predicted)
