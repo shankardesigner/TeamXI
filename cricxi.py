@@ -458,7 +458,7 @@ class XISelector:
         team: str,
         match_type: str,
         as_of: Optional[pd.Timestamp],
-        window_years: int = 1,
+        window_years: int = 2,
     ) -> pd.DataFrame:
         fmt = match_type.upper()
         reference_date = as_of.normalize() if as_of is not None else pd.Timestamp.today().normalize()
