@@ -36,6 +36,49 @@ class VenuesResponse(BaseModel):
     venues: List[str]
 
 
+class PlayerPayload(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    player_id: str = Field(..., alias="playerId")
+    name: str
+    team: str
+    opponent: str
+    match_type: str = Field(..., alias="matchType")
+    role: str
+    predicted_runs: Optional[float] = Field(None, alias="predictedRuns")
+    predicted_wickets: Optional[float] = Field(None, alias="predictedWickets")
+    avg_batting_position: Optional[float] = Field(None, alias="avgBattingPosition")
+    avg_overs: Optional[float] = Field(None, alias="avgOvers")
+    matches_batted: int = Field(..., alias="matchesBatted")
+    matches_bowled: int = Field(..., alias="matchesBowled")
+    batting_recent: Optional[float] = Field(None, alias="battingRecent")
+    bowling_recent: Optional[float] = Field(None, alias="bowlingRecent")
+    headshot_url: Optional[str] = Field(None, alias="headshotUrl")
+
+
+class SquadPayload(BaseModel):
+    team: str
+    opponent: str
+    match_type: str = Field(..., alias="matchType")
+    selected: List[PlayerPayload]
+    bench: List[PlayerPayload]
+
+
+class XIRequest(BaseModel):
+    team_a: str = Field(..., alias="teamA")
+    team_b: str = Field(..., alias="teamB")
+    match_type: str = Field("T20", alias="matchType")
+    venue: Optional[str] = None
+    as_of: Optional[datetime] = Field(None, alias="asOf")
+
+
+class XIResponse(BaseModel):
+    match_type: str = Field(..., alias="matchType")
+    venue: str
+    generated_at: datetime = Field(..., alias="generatedAt")
+    team_a: SquadPayload = Field(..., alias="teamA")
+    team_b: SquadPayload = Field(..., alias="teamB")
+
+
 app = FastAPI(title="CricXI API", version="1.0.0")
 
 app.add_middleware(
