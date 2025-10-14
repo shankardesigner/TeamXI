@@ -119,3 +119,47 @@ def list_venues(
     return VenuesResponse(matchType=match_type, teamA=team_a or "", teamB=team_b or "", venues=venues)
 
 
+@app.post("/predict_xi", response_model=XIResponse)
+def predict_xi(payload: XIRequest, selector: XISelector = Depends(get_selector)):
+    match_type = payload.match_type.upper()
+    venue = payload.venue
+    if not venue:
+        venues = selector.list_venues(match_type, [payload.team_a, payload.team_b])
+        if not venues:
+            raise HTTPException(status_code=400, detail="Unable to infer venue; please provide one explicitly.")
+        venue = venues[0]
+
+    as_of = payload.as_of
+    if isinstance(as_of, datetime):
+        as_of = as_of.tzinfo and as_of.astimezone(tz=None) or as_of
+
+    (team_a_selected, team_a_bench), (team_b_selected, team_b_bench) = selector.generate_match_xi(
+        team_a=payload.team_a,
+        team_b=payload.team_b,
+        match_type=match_type,
+        venue=venue,
+        as_of=as_of,
+    )
+
+    response = XIResponse(
+        matchType=match_type,
+        venue=venue,
+        generatedAt=datetime.utcnow(),
+        teamA=SquadPayload(
+            team=payload.team_a,
+            opponent=payload.team_b,
+            matchType=match_type,
+            selected=[PlayerPayload.from_projection(p) for p in team_a_selected],
+            bench=[PlayerPayload.from_projection(p) for p in team_a_bench],
+        ),
+        teamB=SquadPayload(
+            team=payload.team_b,
+            opponent=payload.team_a,
+            matchType=match_type,
+            selected=[PlayerPayload.from_projection(p) for p in team_b_selected],
+            bench=[PlayerPayload.from_projection(p) for p in team_b_bench],
+        ),
+    )
+    return response
+
+
