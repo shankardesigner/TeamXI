@@ -195,3 +195,185 @@ def _key_player_summary(projection: PlayerProjection) -> KeyPlayerSummary:
     )
 
 
+def _summarise_team(
+    lineup: List[PlayerProjection],
+    team_name: str,
+    opponent: str,
+    match_type: str,
+    win_probability: float,
+) -> TeamInsightResponse:
+    def batting_weight(player: PlayerProjection, idx: int) -> float:
+        pos = player.avg_batting_position if player.avg_batting_position is not None else 8.5
+        role = (player.role or "").lower()
+        if pos <= 2.5:
+            base = 1.0
+        elif pos <= 3.5:
+            base = 0.95
+        elif pos <= 4.5:
+            base = 0.88
+        elif pos <= 5.5:
+            base = 0.78
+        elif pos <= 6.5:
+            base = 0.66
+        elif pos <= 7.5:
+            base = 0.52
+        else:
+            base = 0.38
+        if "all-rounder" in role and base < 0.66:
+            base = max(base, 0.6)
+        if player.matches_batted and player.matches_batted >= 10:
+            base *= 1.05
+        else:
+            base *= 0.9
+        if player.batting_recent is not None and player.predicted_runs:
+            recent_delta = player.batting_recent - player.predicted_runs
+            if recent_delta > 10:
+                base *= 1.05
+            elif recent_delta < -10:
+                base *= 0.92
+        decay = 0.97 ** idx
+        return max(0.2, min(base * decay, 1.05))
+
+    def bowling_weight(player: PlayerProjection, idx: int) -> float:
+        overs = player.avg_overs if player.avg_overs is not None else 2.0
+        role = (player.role or "").lower()
+        if overs >= 3.8:
+            base = 1.0
+        elif overs >= 3.2:
+            base = 0.9
+        elif overs >= 2.6:
+            base = 0.78
+        elif overs >= 2.0:
+            base = 0.64
+        else:
+            base = 0.5
+        if "all-rounder" in role and base < 0.72:
+            base = max(base, 0.72)
+        if player.matches_bowled and player.matches_bowled >= 10:
+            base *= 1.04
+        else:
+            base *= 0.92
+        if player.bowling_recent is not None and player.predicted_wickets:
+            recent_delta = player.bowling_recent - player.predicted_wickets
+            if recent_delta > 0.4:
+                base *= 1.04
+            elif recent_delta < -0.4:
+                base *= 0.9
+        decay = 0.96 ** idx
+        return max(0.25, min(base * decay, 1.05))
+
+    max_batters = 9 if match_type.upper() == "ODI" else 7
+    max_bowlers = 7 if match_type.upper() == "ODI" else 5
+
+    sorted_batters = sorted(
+        lineup,
+        key=lambda p: p.avg_batting_position if p.avg_batting_position is not None else 99.0,
+    )
+    weighted_runs = []
+    for idx, player in enumerate(sorted_batters):
+        if idx >= max_batters:
+            break
+        runs = player.predicted_runs or 0.0
+        if runs <= 0:
+            continue
+        weighted_runs.append(runs * batting_weight(player, idx))
+
+    sorted_bowlers = sorted(
+        lineup,
+        key=lambda p: (
+            -(p.predicted_wickets or 0.0),
+            -(p.avg_overs or 0.0),
+        ),
+    )
+    weighted_wickets = []
+    for idx, player in enumerate(sorted_bowlers):
+        if idx >= max_bowlers:
+            break
+        wkts = player.predicted_wickets or 0.0
+        if wkts <= 0:
+            continue
+        weighted_wickets.append(wkts * bowling_weight(player, idx))
+
+    if match_type.upper() == "ODI":
+        base_runs = 28.0
+        base_wickets = 0.8
+        batting_reference = 330.0
+        bowling_reference = 9.5
+        high_run_threshold = 305
+        solid_run_threshold = 275
+        low_run_threshold = 240
+        anchor_threshold = 55
+    else:  # T20
+        base_runs = 8.0
+        base_wickets = 0.4
+        batting_reference = 200.0
+        bowling_reference = 8.0
+        high_run_threshold = 175
+        solid_run_threshold = 160
+        low_run_threshold = 140
+        anchor_threshold = 38
+
+    total_runs = float(sum(weighted_runs) + base_runs)
+    total_wickets = float(sum(weighted_wickets) + base_wickets)
+
+    top_batters = sorted(lineup, key=lambda p: p.predicted_runs or -1.0, reverse=True)[:3]
+    top_bowlers = sorted(lineup, key=lambda p: p.predicted_wickets or -1.0, reverse=True)[:3]
+
+    strengths: List[str] = []
+    weaknesses: List[str] = []
+
+    max_run = max((p.predicted_runs or 0.0) for p in lineup) if lineup else 0.0
+    strike_batters = sum(1 for value in weighted_runs if value >= 25)
+    strike_bowlers = sum(1 for value in weighted_wickets if value >= 1.6)
+
+    if total_runs >= high_run_threshold:
+        strengths.append("Explosive batting potential")
+    elif total_runs >= solid_run_threshold:
+        strengths.append("Balanced scoring depth")
+
+    if max_run >= anchor_threshold and top_batters:
+        strengths.append(f"Form player: {top_batters[0].player_name}")
+
+    if strike_batters >= 3:
+        strengths.append("Middle order consistency")
+
+    if total_wickets >= (8.0 if match_type.upper() == "ODI" else 6.0):
+        strengths.append("Wicket-taking attack")
+    elif strike_bowlers >= 2:
+        strengths.append("Multiple strike bowlers")
+
+    if total_runs < low_run_threshold:
+        weaknesses.append("Runs on the board could be a concern")
+    if max_run < anchor_threshold * 0.75:
+        weaknesses.append("Need a reliable top-order anchor")
+    if total_wickets < (6.0 if match_type.upper() == "ODI" else 4.5):
+        weaknesses.append("Bowling penetration looks light")
+    if strike_bowlers <= 1:
+        weaknesses.append("Reliant on a single strike bowler")
+
+    batting_rating = max(0.0, min(100.0, (total_runs / batting_reference) * 100.0))
+    bowling_rating = max(0.0, min(100.0, (total_wickets / bowling_reference) * 100.0))
+
+    key_batters = [_key_player_summary(p) for p in top_batters if (p.predicted_runs or 0) > 0]
+    key_bowlers = [_key_player_summary(p) for p in top_bowlers if (p.predicted_wickets or 0) > 0]
+
+    if not key_batters and top_batters:
+        key_batters = [_key_player_summary(top_batters[0])]
+    if not key_bowlers and top_bowlers:
+        key_bowlers = [_key_player_summary(top_bowlers[0])]
+
+    return TeamInsightResponse(
+        team=team_name or (lineup[0].team if lineup else ""),
+        opponent=opponent,
+        win_probability=round(win_probability, 4),
+        expected_runs=round(total_runs, 1),
+        expected_wickets=round(total_wickets, 2),
+        batting_rating=round(batting_rating, 1),
+        bowling_rating=round(bowling_rating, 1),
+        strengths=strengths or ["Balanced lineup"],
+        weaknesses=weaknesses[:3],
+        key_batters=key_batters,
+        key_bowlers=key_bowlers,
+    )
+
+
