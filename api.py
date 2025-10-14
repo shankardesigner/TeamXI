@@ -79,6 +79,28 @@ class XIResponse(BaseModel):
     team_b: SquadPayload = Field(..., alias="teamB")
 
 
+class KeyPlayerSummary(BaseModel):
+    name: str
+    role: str
+    predicted_runs: Optional[float] = Field(None, alias="predictedRuns")
+    predicted_wickets: Optional[float] = Field(None, alias="predictedWickets")
+
+
+class TeamInsightResponse(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    team: str
+    opponent: str
+    win_probability: float = Field(..., alias="winProbability")
+    expected_runs: float = Field(..., alias="expectedRuns")
+    expected_wickets: float = Field(..., alias="expectedWickets")
+    batting_rating: float = Field(..., alias="battingRating")
+    bowling_rating: float = Field(..., alias="bowlingRating")
+    strengths: List[str]
+    weaknesses: List[str]
+    key_batters: List[KeyPlayerSummary] = Field(..., alias="keyBatters")
+    key_bowlers: List[KeyPlayerSummary] = Field(..., alias="keyBowlers")
+
+
 app = FastAPI(title="CricXI API", version="1.0.0")
 
 app.add_middleware(
@@ -161,5 +183,15 @@ def predict_xi(payload: XIRequest, selector: XISelector = Depends(get_selector))
         ),
     )
     return response
+
+
+def _key_player_summary(projection: PlayerProjection) -> KeyPlayerSummary:
+    payload = projection.to_payload()
+    return KeyPlayerSummary(
+        name=payload["name"],
+        role=payload["role"],
+        predictedRuns=payload["predicted_runs"],
+        predictedWickets=payload["predicted_wickets"],
+    )
 
 
