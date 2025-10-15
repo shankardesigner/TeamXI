@@ -101,6 +101,25 @@ class TeamInsightResponse(BaseModel):
     key_bowlers: List[KeyPlayerSummary] = Field(..., alias="keyBowlers")
 
 
+class MatchPredictionRequest(BaseModel):
+    team_a: str = Field(..., alias="teamA")
+    team_b: str = Field(..., alias="teamB")
+    match_type: str = Field("T20", alias="matchType")
+    venue: Optional[str] = None
+    as_of: Optional[datetime] = Field(None, alias="asOf")
+
+
+class MatchPredictionResponse(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    match_type: str = Field(..., alias="matchType")
+    venue: str
+    generated_at: datetime = Field(..., alias="generatedAt")
+    team_a: TeamInsightResponse = Field(..., alias="teamA")
+    team_b: TeamInsightResponse = Field(..., alias="teamB")
+    confidence: float
+    summary: str
+
+
 app = FastAPI(title="CricXI API", version="1.0.0")
 
 app.add_middleware(
@@ -374,6 +393,69 @@ def _summarise_team(
         weaknesses=weaknesses[:3],
         key_batters=key_batters,
         key_bowlers=key_bowlers,
+    )
+
+
+@app.post("/predict_match", response_model=MatchPredictionResponse)
+def predict_match(payload: MatchPredictionRequest, selector: XISelector = Depends(get_selector)):
+    match_type = payload.match_type.upper()
+    venue = payload.venue
+    if not venue:
+        venues = selector.list_venues(match_type, [payload.team_a, payload.team_b])
+        if not venues:
+            raise HTTPException(status_code=400, detail="Unable to infer venue; please provide one explicitly.")
+        venue = venues[0]
+
+    as_of = payload.as_of
+    if isinstance(as_of, datetime):
+        as_of = as_of.tzinfo and as_of.astimezone(tz=None) or as_of
+
+    (team_a_selected, _), (team_b_selected, _) = selector.generate_match_xi(
+        team_a=payload.team_a,
+        team_b=payload.team_b,
+        match_type=match_type,
+        venue=venue,
+        as_of=as_of,
+    )
+
+    insight_a = _summarise_team(team_a_selected, payload.team_a, payload.team_b, match_type, 0.5)
+    insight_b = _summarise_team(team_b_selected, payload.team_b, payload.team_a, match_type, 0.5)
+
+    score_a = (insight_a.batting_rating * 0.7 + insight_a.bowling_rating * 0.3)
+    score_b = (insight_b.batting_rating * 0.7 + insight_b.bowling_rating * 0.3)
+
+    diff = score_a - score_b
+    logistic_scale = 14.0 if match_type.upper() == "ODI" else 8.0
+    if score_a == 0 and score_b == 0:
+        prob_a = prob_b = 0.5
+    else:
+        prob_a = 1.0 / (1.0 + math.exp(-diff / logistic_scale))
+        prob_b = 1.0 - prob_a
+
+    insight_a.win_probability = round(prob_a, 4)
+    insight_b.win_probability = round(prob_b, 4)
+
+    prob_a = insight_a.win_probability
+    prob_b = insight_b.win_probability
+
+    confidence = round(max(prob_a, prob_b), 4)
+    favoured = insight_a.team if prob_a >= prob_b else insight_b.team
+    underdog = insight_b.team if prob_a >= prob_b else insight_a.team
+    fav_prob = confidence * 100
+    summary = (
+        f"{favoured} hold a {fav_prob:.0f}% edge over {underdog} at {venue}."
+        if favoured and underdog
+        else f"Projected outcome compiled for {payload.team_a} vs {payload.team_b}."
+    )
+
+    return MatchPredictionResponse(
+        matchType=match_type,
+        venue=venue,
+        generatedAt=datetime.utcnow(),
+        teamA=insight_a,
+        teamB=insight_b,
+        confidence=confidence,
+        summary=summary,
     )
 
 
