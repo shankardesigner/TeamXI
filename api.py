@@ -54,6 +54,22 @@ class PlayerPayload(BaseModel):
     bowling_recent: Optional[float] = Field(None, alias="bowlingRecent")
     headshot_url: Optional[str] = Field(None, alias="headshotUrl")
 
+    @classmethod
+    def from_projection(cls, projection: PlayerProjection) -> "PlayerPayload":
+        payload = projection.to_payload()
+        payload["playerId"] = payload.pop("player_id")
+        payload["matchType"] = payload.pop("match_type")
+        payload["predictedRuns"] = payload.pop("predicted_runs")
+        payload["predictedWickets"] = payload.pop("predicted_wickets")
+        payload["avgBattingPosition"] = payload.pop("avg_batting_position")
+        payload["avgOvers"] = payload.pop("avg_overs")
+        payload["matchesBatted"] = payload.pop("matches_batted")
+        payload["matchesBowled"] = payload.pop("matches_bowled")
+        payload["battingRecent"] = payload.pop("batting_recent")
+        payload["bowlingRecent"] = payload.pop("bowling_recent")
+        payload["headshotUrl"] = payload.pop("headshot_url")
+        return cls(**payload)
+
 
 class SquadPayload(BaseModel):
     team: str
@@ -458,4 +474,9 @@ def predict_match(payload: MatchPredictionRequest, selector: XISelector = Depend
         summary=summary,
     )
 
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)
 
