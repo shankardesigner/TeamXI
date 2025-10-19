@@ -31,3 +31,11 @@ export async function fetchVenues({ matchType = "T20", teamA, teamB }) {
   const data = await request(`/venues?${params.toString()}`);
   return data;
 }
+
+export async function fetchPredictedXI(payload) {
+  const data = await request("/predict_xi", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  return data;
+}
