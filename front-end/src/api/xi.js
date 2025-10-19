@@ -23,3 +23,11 @@ export async function fetchTeams(matchType = "T20") {
   const data = await request(`/teams?${params.toString()}`);
   return data;
 }
+
+export async function fetchVenues({ matchType = "T20", teamA, teamB }) {
+  const params = new URLSearchParams({ matchType });
+  if (teamA) params.append("teamA", teamA);
+  if (teamB) params.append("teamB", teamB);
+  const data = await request(`/venues?${params.toString()}`);
+  return data;
+}
