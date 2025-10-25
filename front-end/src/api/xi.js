@@ -39,3 +39,12 @@ export async function fetchPredictedXI(payload) {
   });
   return data;
 }
+
+export async function fetchMatchPrediction(payload) {
+  const data = await request("/predict_match", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  return data;
+}
+
