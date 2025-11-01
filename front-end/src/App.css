@@ -1,0 +1,239 @@
+.player-draggable {
+  cursor: grab;
+}
+
+.player-draggable:active {
+  cursor: grabbing;
+}
+@import url("https://fonts.googleapis.com/css2?family=Antonio:wght@600;700&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: #ffffff;
+  background-color: #0b0b0f;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: auto;
+}
+
+#root {
+  display: flex;
+  min-height: 100%;
+  width: 100%;
+}
+
+.confetti-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 120;
+}
+
+.confetti-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.25);
+  animation: confetti-burst var(--animation-duration, 4s)
+    cubic-bezier(0.2, 0.65, 0.28, 0.98) forwards;
+  animation-delay: var(--animation-delay, 0s);
+}
+
+
+@keyframes confetti-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(0.25);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  55% {
+    transform: translate(
+        calc(-50% + var(--dx-mid)),
+        calc(-50% + var(--dy-mid))
+      )
+      scale(1);
+  }
+  100% {
+    transform: translate(
+        calc(-50% + var(--dx-end)),
+        calc(-50% + var(--dy-fall))
+      )
+      scale(1);
+    opacity: 0;
+  }
+}
+
+.duel-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panel-empty {
+  grid-column: 1 / -1;
+  padding: 36px 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  background: rgba(8, 18, 42, 0.42);
+  font-size: 0.88rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 24px 28px;
+  gap: 20px;
+}
+
+.panel-header {
+  text-align: center;
+}
+
+.panel-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.panel-title {
+  margin: 0;
+  font-family: "Antonio", "Inter", sans-serif;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.panel-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 16px;
+  width: 100%;
+  max-width: 540px;
+  margin-top: 12px;
+  align-content: start;
+  justify-items: center;
+}
+
+.panel-subs {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  align-self: stretch;
+  gap: 12px;
+}
+
+.subs-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.subs-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  grid-auto-rows: 1fr;
+}
+
+.subs-item {
+  background: rgba(7, 15, 35, 0.26);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 12px 12px 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 76px;
+  height: 100%;
+  box-shadow: 0 12px 24px rgba(4, 6, 18, 0.28);
+}
+
+.panel-asia .subs-item {
+  background: rgba(7, 29, 78, 0.32);
+}
+
+.panel-world .subs-item {
+  background: rgba(86, 12, 12, 0.32);
+}
+
+.subs-item strong {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.subs-item span {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.player-avatar {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  overflow: visible;
+  flex-shrink: 0;
+  margin: 0 auto 8px;
+  background: #fff;
+}
+
+.player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
