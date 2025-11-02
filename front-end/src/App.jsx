@@ -1,5 +1,6 @@
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import MatchPredictorPage from "./pages/MatchPredictor.jsx";
+import XIPredictorPage from "./pages/XIPredictor.jsx";
 
 function AppShell({ children, showNav = true, showFooter = false }) {
   return (
@@ -47,6 +48,14 @@ function App() {
         element={
           <AppShell showFooter>
             <MatchPredictorPage onNavigateXI={onMatchNavigateXI} />
+          </AppShell>
+        }
+      />
+      <Route
+        path="/xi"
+        element={
+          <AppShell showNav={false}>
+            <XIPredictorPage onBack={() => navigate("/")} />
           </AppShell>
         }
       />
