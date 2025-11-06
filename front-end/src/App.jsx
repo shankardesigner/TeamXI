@@ -1,6 +1,7 @@
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import MatchPredictorPage from "./pages/MatchPredictor.jsx";
 import XIPredictorPage from "./pages/XIPredictor.jsx";
+import BeatAIPage from "./pages/BeatAI.jsx";
 
 function AppShell({ children, showNav = true, showFooter = false }) {
   return (
@@ -56,6 +57,14 @@ function App() {
         element={
           <AppShell showNav={false}>
             <XIPredictorPage onBack={() => navigate("/")} />
+          </AppShell>
+        }
+      />
+      <Route
+        path="/beat"
+        element={
+          <AppShell showNav={false}>
+            <BeatAIPage onBack={() => navigate("/")} />
           </AppShell>
         }
       />
