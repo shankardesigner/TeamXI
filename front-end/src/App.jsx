@@ -68,6 +68,14 @@ function App() {
           </AppShell>
         }
       />
+      <Route
+        path="*"
+        element={
+          <AppShell>
+            <MatchPredictorPage onNavigateXI={onMatchNavigateXI} />
+          </AppShell>
+        }
+      />
     </Routes>
   );
 }
