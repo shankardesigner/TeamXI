@@ -954,3 +954,243 @@ body {
   background: radial-gradient(circle at top, rgba(32, 40, 92, 0.45), rgba(6, 10, 24, 0.9));
   width: 100%;
 }
+
+.beat-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(10, 16, 40, 0.78);
+  border: 1px solid rgba(134, 146, 200, 0.18);
+  border-radius: 24px;
+  padding: 24px 28px;
+  box-shadow: 0 18px 38px rgba(6, 10, 28, 0.42);
+}
+
+.beat-headline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.beat-headline-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.beat-headline h1 {
+  margin: 0;
+  font-family: "Antonio", "Inter", sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.beat-headline p {
+  margin: 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  color: rgba(220, 228, 255, 0.78);
+}
+
+.beat-back-button {
+  margin-left: auto;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+
+.beat-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.beat-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 160px;
+}
+
+.beat-control-group label {
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(214, 222, 255, 0.72);
+}
+
+.beat-control-group select {
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(10, 18, 42, 0.66);
+  color: #ffffff;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+}
+
+.beat-fetch-button {
+  background: linear-gradient(135deg, rgba(32, 138, 245, 0.94), rgba(16, 78, 200, 0.85));
+  box-shadow: 0 18px 38px rgba(20, 54, 150, 0.38);
+}
+
+.beat-action-button {
+  background: linear-gradient(135deg, rgba(14, 192, 161, 0.92), rgba(8, 122, 98, 0.85));
+  box-shadow: 0 18px 38px rgba(10, 90, 82, 0.36);
+}
+
+.beat-action-button:disabled {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.beat-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.beat-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: rgba(12, 18, 42, 0.74);
+  border: 1px solid rgba(150, 166, 220, 0.16);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 18px 36px rgba(8, 12, 35, 0.36);
+}
+
+.beat-column h2 {
+  margin: 0;
+  font-family: "Antonio", "Inter", sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.impact-score {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(226, 234, 255, 0.76);
+}
+
+.bench-note {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(226, 234, 255, 0.6);
+}
+
+.beat-xi,
+.beat-bench {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.beat-bench-empty {
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(12, 22, 48, 0.72);
+  border: 1px dashed rgba(180, 192, 255, 0.28);
+  color: rgba(214, 222, 255, 0.72);
+  text-align: center;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  grid-column: 1 / -1;
+}
+
+.beat-result {
+  margin-top: -8px;
+  margin-bottom: 8px;
+  padding: 20px 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+  box-shadow: 0 20px 32px rgba(8, 12, 26, 0.35);
+}
+
+.beat-result h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.beat-result p {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+}
+
+.beat-result-user {
+  background: linear-gradient(135deg, rgba(20, 180, 140, 0.82), rgba(4, 96, 72, 0.85));
+  color: #eaffe9;
+}
+
+.beat-result-ai {
+  background: linear-gradient(135deg, rgba(196, 60, 72, 0.85), rgba(112, 16, 28, 0.9));
+  color: #ffeeee;
+}
+
+.beat-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.beat-card-bench {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.beat-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+  background: rgba(8, 12, 32, 0.92);
+  flex-shrink: 0;
+}
+
+.beat-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.beat-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.beat-name {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.66rem;
+  color: rgba(244, 248, 255, 0.92);
+}
+
+.beat-role {
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(226, 234, 255, 0.68);
+}
