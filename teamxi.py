@@ -461,7 +461,14 @@ class XISelector:
         window_years: int = 2,
     ) -> pd.DataFrame:
         fmt = match_type.upper()
-        reference_date = as_of.normalize() if as_of is not None else pd.Timestamp.today().normalize()
+        if as_of is not None:
+            # API passes a plain datetime; feature dates are naive.
+            reference_date = pd.Timestamp(as_of)
+            if reference_date.tzinfo is not None:
+                reference_date = reference_date.tz_localize(None)
+            reference_date = reference_date.normalize()
+        else:
+            reference_date = pd.Timestamp.today().normalize()
         start_date = reference_date - pd.DateOffset(years=window_years)
         subset = df[
             (df[team_col] == team)
