@@ -8,8 +8,8 @@ function AppShell({ children, showNav = true, showFooter = false }) {
     <div className="app-root">
       {showNav ? (
         <header className="site-nav">
-          <Link to="/" className="nav-wordmark" aria-label="CricXI Home">
-            CricXI
+          <Link to="/" className="nav-wordmark" aria-label="TeamXI Home">
+            TeamXI
           </Link>
           <nav className="nav-links">
             <Link to="/xi" className="nav-link">

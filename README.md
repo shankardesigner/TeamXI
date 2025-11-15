@@ -1,4 +1,4 @@
-# CricXI
+# TeamXI
 
 Predicts a best playing XI, per-player runs/wickets projections, and match outcome
 for two international teams at a given venue — served by a FastAPI backend with a
@@ -9,7 +9,7 @@ React (Vite) frontend.
 ```
 app/
 ├── api.py                # FastAPI server (routes, request/response models)
-├── cricxi.py             # XISelector — selection + projection engine
+├── teamxi.py             # XISelector — selection + projection engine
 ├── data/                 # NOT in git — see "Data" below
 │   ├── proceed/          # per-player, per-match feature tables (batting/bowling + rolling form)
 │   └── players/          # active_players.json (squads, roles, headshots)

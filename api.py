@@ -10,10 +10,10 @@ from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, ConfigDict
 
-from cricxi import PlayerProjection, XISelector
+from teamxi import PlayerProjection, XISelector
 
 
-LOGGER = logging.getLogger("cricxi-api")
+LOGGER = logging.getLogger("teamxi-api")
 
 
 def get_selector() -> XISelector:
@@ -136,7 +136,7 @@ class MatchPredictionResponse(BaseModel):
     summary: str
 
 
-app = FastAPI(title="CricXI API", version="1.0.0")
+app = FastAPI(title="TeamXI API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
