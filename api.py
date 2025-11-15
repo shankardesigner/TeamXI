@@ -8,10 +8,9 @@ from typing import List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from teamxi import PlayerProjection, XISelector
-
 
 LOGGER = logging.getLogger("teamxi-api")
 
@@ -20,8 +19,8 @@ def get_selector() -> XISelector:
     if not hasattr(get_selector, "_instance"):
         root_dir = Path(__file__).resolve().parent
         LOGGER.info("Initialising XISelector with root_dir=%s", root_dir)
-        setattr(get_selector, "_instance", XISelector(root_dir=root_dir))
-    return getattr(get_selector, "_instance")
+        get_selector._instance = XISelector(root_dir=root_dir)
+    return get_selector._instance
 
 
 class TeamsResponse(BaseModel):

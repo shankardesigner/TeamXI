@@ -9,7 +9,6 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 
-
 # ---------------------------------------------------------------------------
 # Utility data classes
 # ---------------------------------------------------------------------------
@@ -646,11 +645,9 @@ class XISelector:
         if profile:
             player_type = profile.get("player_type", "Unknown")
             avg_runs = profile.get("avg_runs", player_avg)
-            player_name = profile.get("name", player_id)
         else:
             player_type = "Unknown"
             avg_runs = player_avg
-            player_name = df["player_name"].iloc[-1]
 
         quality_bonus = 0.0
         if "World-Class" in player_type:
@@ -669,7 +666,6 @@ class XISelector:
         opponent_norm = opponent_team.strip().title()
         strength_key = (opponent_norm, match_type.upper())
         opponent_strength = self._bowling_strength_lookup.get(strength_key)
-        strength_source = "data"
 
         if opponent_strength is None:
             # fallbacks based on tiers
@@ -688,16 +684,12 @@ class XISelector:
             }
             if opponent_norm in major:
                 opponent_strength = 0.7
-                strength_source = "major tier"
             elif opponent_norm in strong:
                 opponent_strength = 0.6
-                strength_source = "strong tier"
             elif opponent_norm in associate:
                 opponent_strength = 0.4
-                strength_source = "associate tier"
             else:
                 opponent_strength = 0.5
-                strength_source = "default"
 
         opponent_factor = 1.0 + (0.5 - opponent_strength)
         if opponent_strength > 0.7:
