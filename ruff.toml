@@ -1,0 +1,15 @@
+target-version = "py39"
+line-length = 100
+
+# Colab exports and one-off data scripts are not held to app-code standards.
+exclude = ["train", "pipeline", ".venv", "front-end"]
+
+[lint]
+select = ["E", "F", "W", "I", "B"]
+ignore = [
+    "E501",  # long lines
+    "B008",  # Depends() in defaults is the FastAPI idiom
+]
+
+[lint.per-file-ignores]
+"tests/*" = ["E402"]
