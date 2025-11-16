@@ -1,0 +1,176 @@
+match_id,date,player_name,player_id,bowling_team,opponent_team,venue,match_type,winner,city,season,team_type,runs_conceded,balls_bowled,wickets_taken,dot_balls,overs_bowled,economy_rate
+4651,2023-09-22,A Zampa,14f96089,Australia,India,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,57,60,3,23,10.0,5.7
+4651,2023-09-22,SN Thakur,1abb78f8,India,Australia,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,78,61,1,28,10.17,7.67
+4651,2023-09-22,SA Abbott,1a2676c5,Australia,India,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,57,58,1,29,9.67,5.89
+4651,2023-09-22,RA Jadeja,fe93fd9d,India,Australia,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,51,61,1,24,10.17,5.01
+4651,2023-09-22,R Ashwin,495d42a5,India,Australia,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,47,60,1,31,10.0,4.7
+4651,2023-09-22,C Green,eaa76d3c,Australia,India,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,44,37,0,13,6.17,7.13
+4651,2023-09-22,Mohammed Shami,8cf9814c,India,Australia,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,57,60,6,31,10.0,5.7
+4651,2023-09-22,MW Short,a90e53ec,Australia,India,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,39,50,0,21,8.33,4.68
+4651,2023-09-22,MP Stoinis,d9273ee7,Australia,India,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,40,30,0,11,5.0,8.0
+4651,2023-09-22,JJ Bumrah,462411b3,India,Australia,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,43,60,1,39,10.0,4.3
+4651,2023-09-22,PJ Cummins,ded9240e,Australia,India,"Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",ODI,India,Chandigarh,2023/24,international,44,60,1,34,10.0,4.4
+4654,2023-09-24,SN Thakur,1abb78f8,India,Australia,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,35,25,1,7,4.17,8.39
+4654,2023-09-24,SH Johnson,83c3e8e3,Australia,India,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,61,50,0,20,8.33,7.32
+4654,2023-09-24,SA Abbott,1a2676c5,Australia,India,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,91,64,1,14,10.67,8.53
+4654,2023-09-24,R Ashwin,495d42a5,India,Australia,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,43,42,3,18,7.0,6.14
+4654,2023-09-24,RA Jadeja,fe93fd9d,India,Australia,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,42,32,3,18,5.33,7.88
+4654,2023-09-24,M Prasidh Krishna,85e0cf10,India,Australia,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,56,38,2,18,6.33,8.85
+4654,2023-09-24,JR Hazlewood,03806cf8,Australia,India,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,62,62,1,25,10.33,6.0
+4654,2023-09-24,C Green,eaa76d3c,Australia,India,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,103,62,2,20,10.33,9.97
+4654,2023-09-24,A Zampa,14f96089,Australia,India,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,67,60,1,22,10.0,6.7
+4654,2023-09-24,Mohammed Shami,8cf9814c,India,Australia,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,41,36,1,20,6.0,6.83
+4654,2023-09-24,MW Short,a90e53ec,Australia,India,"Holkar Cricket Stadium, Indore",ODI,India,Indore,2023/24,international,15,12,0,3,2.0,7.5
+4657,2023-09-27,Mohammed Siraj,2f49c897,India,Australia,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,68,55,1,24,9.17,7.42
+4657,2023-09-27,GJ Maxwell,b681e71e,Australia,India,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,40,60,4,35,10.0,4.0
+4657,2023-09-27,JJ Bumrah,462411b3,India,Australia,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,82,63,3,22,10.5,7.81
+4657,2023-09-27,JR Hazlewood,03806cf8,Australia,India,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,43,49,2,25,8.17,5.26
+4657,2023-09-27,Kuldeep Yadav,8d2c70ad,India,Australia,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,48,36,2,12,6.0,8.0
+4657,2023-09-27,M Prasidh Krishna,85e0cf10,India,Australia,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,45,32,1,12,5.33,8.44
+4657,2023-09-27,MA Starc,3fb19989,Australia,India,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,53,44,1,19,7.33,7.23
+4657,2023-09-27,C Green,eaa76d3c,Australia,India,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,30,41,1,22,6.83,4.39
+4657,2023-09-27,T Sangha,52c952d9,Australia,India,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,61,60,1,28,10.0,6.1
+4657,2023-09-27,RA Jadeja,fe93fd9d,India,Australia,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,61,61,0,27,10.17,6.0
+4657,2023-09-27,PJ Cummins,ded9240e,Australia,India,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,59,49,1,19,8.17,7.22
+4657,2023-09-27,Washington Sundar,f19ccfad,India,Australia,"Saurashtra Cricket Association Stadium, Rajkot",ODI,Australia,Rajkot,2023/24,international,48,61,0,30,10.17,4.72
+4662,2023-10-08,C Green,eaa76d3c,Australia,India,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,11,12,0,7,2.0,5.5
+4662,2023-10-08,A Zampa,14f96089,Australia,India,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,53,48,0,13,8.0,6.62
+4662,2023-10-08,R Ashwin,495d42a5,India,Australia,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,34,60,1,32,10.0,3.4
+4662,2023-10-08,PJ Cummins,ded9240e,Australia,India,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,34,40,0,18,6.67,5.1
+4662,2023-10-08,Mohammed Siraj,2f49c897,India,Australia,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,26,41,1,26,6.83,3.81
+4662,2023-10-08,RA Jadeja,fe93fd9d,India,Australia,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,33,60,3,36,10.0,3.3
+4662,2023-10-08,Kuldeep Yadav,8d2c70ad,India,Australia,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,42,60,2,31,10.0,4.2
+4662,2023-10-08,JR Hazlewood,03806cf8,Australia,India,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,38,55,3,33,9.17,4.14
+4662,2023-10-08,JJ Bumrah,462411b3,India,Australia,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,36,64,2,40,10.67,3.37
+4662,2023-10-08,HH Pandya,dbe50b21,India,Australia,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,28,18,1,8,3.0,9.33
+4662,2023-10-08,GJ Maxwell,b681e71e,Australia,India,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,33,48,0,24,8.0,4.12
+4662,2023-10-08,MA Starc,3fb19989,Australia,India,"MA Chidambaram Stadium, Chepauk, Chennai",ODI,India,Chennai,2023/24,international,32,51,1,27,8.5,3.76
+4705,2023-11-19,TM Head,12b610c2,Australia,India,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,6,12,0,7,2.0,3.0
+4705,2023-11-19,RA Jadeja,fe93fd9d,India,Australia,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,43,61,0,29,10.17,4.23
+4705,2023-11-19,PJ Cummins,ded9240e,Australia,India,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,35,62,2,29,10.33,3.39
+4705,2023-11-19,Mohammed Siraj,2f49c897,India,Australia,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,45,42,1,16,7.0,6.43
+4705,2023-11-19,Mohammed Shami,8cf9814c,India,Australia,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,49,45,1,26,7.5,6.53
+4705,2023-11-19,Kuldeep Yadav,8d2c70ad,India,Australia,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,56,60,0,25,10.0,5.6
+4705,2023-11-19,MA Starc,3fb19989,Australia,India,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,55,63,3,30,10.5,5.24
+4705,2023-11-19,JR Hazlewood,03806cf8,Australia,India,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,60,61,3,22,10.17,5.9
+4705,2023-11-19,JJ Bumrah,462411b3,India,Australia,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,48,54,2,35,9.0,5.33
+4705,2023-11-19,A Zampa,14f96089,Australia,India,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,44,61,1,22,10.17,4.33
+4705,2023-11-19,MR Marsh,3d8feaf8,Australia,India,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,5,12,0,7,2.0,2.5
+4705,2023-11-19,GJ Maxwell,b681e71e,Australia,India,"Narendra Modi Stadium, Ahmedabad",ODI,Australia,Ahmedabad,2023/24,international,35,36,1,19,6.0,5.83
+2360,2023-11-23,AR Patel,2e171977,India,Australia,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,32,24,0,10,4.0,8.0
+2360,2023-11-23,NT Ellis,9eb1455b,Australia,India,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,44,27,0,8,4.5,9.78
+2360,2023-11-23,T Sangha,52c952d9,Australia,India,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,47,25,2,5,4.17,11.27
+2360,2023-11-23,Ravi Bishnoi,df064e1a,India,Australia,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,54,24,1,7,4.0,13.5
+2360,2023-11-23,Mukesh Kumar,2cffab74,India,Australia,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,29,25,1,11,4.17,6.95
+2360,2023-11-23,MW Short,a90e53ec,Australia,India,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,13,7,1,2,1.17,11.11
+2360,2023-11-23,SA Abbott,1a2676c5,Australia,India,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,44,28,3,7,4.67,9.42
+2360,2023-11-23,M Prasidh Krishna,85e0cf10,India,Australia,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,50,24,1,7,4.0,12.5
+2360,2023-11-23,JP Behrendorff,4933f499,Australia,India,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,25,24,1,11,4.0,6.25
+2360,2023-11-23,Arshdeep Singh,244048f6,India,Australia,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,43,28,0,8,4.67,9.21
+2360,2023-11-23,MP Stoinis,d9273ee7,Australia,India,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",T20,India,Visakhapatnam,2023/24,international,36,21,1,5,3.5,10.29
+2367,2023-11-26,Arshdeep Singh,244048f6,India,Australia,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,46,25,1,8,4.17,11.03
+2367,2023-11-26,GJ Maxwell,b681e71e,Australia,India,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,38,16,0,2,2.67,14.23
+2367,2023-11-26,M Prasidh Krishna,85e0cf10,India,Australia,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,45,26,3,7,4.33,10.39
+2367,2023-11-26,MP Stoinis,d9273ee7,Australia,India,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,29,19,1,4,3.17,9.15
+2367,2023-11-26,Mukesh Kumar,2cffab74,India,Australia,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,43,26,1,8,4.33,9.93
+2367,2023-11-26,NT Ellis,9eb1455b,Australia,India,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,45,30,3,10,5.0,9.0
+2367,2023-11-26,Ravi Bishnoi,df064e1a,India,Australia,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,32,25,3,8,4.17,7.67
+2367,2023-11-26,SA Abbott,1a2676c5,Australia,India,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,56,19,0,2,3.17,17.67
+2367,2023-11-26,T Sangha,52c952d9,Australia,India,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,34,24,0,5,4.0,8.5
+2367,2023-11-26,AR Patel,2e171977,India,Australia,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,25,24,1,12,4.0,6.25
+2367,2023-11-26,A Zampa,14f96089,Australia,India,"Greenfield International Stadium, Thiruvananthapuram",T20,India,Thiruvananthapuram,2023/24,international,33,24,0,7,4.0,8.25
+2372,2023-11-28,JP Behrendorff,4933f499,Australia,India,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,16,25,1,16,4.17,3.84
+2372,2023-11-28,AM Hardie,d405c0d5,Australia,India,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,64,28,1,3,4.67,13.7
+2372,2023-11-28,AR Patel,2e171977,India,Australia,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,41,25,1,8,4.17,9.83
+2372,2023-11-28,Arshdeep Singh,244048f6,India,Australia,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,44,24,1,7,4.0,11.0
+2372,2023-11-28,Avesh Khan,eef2536f,India,Australia,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,37,26,1,10,4.33,8.55
+2372,2023-11-28,GJ Maxwell,b681e71e,Australia,India,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,30,8,0,0,1.33,22.56
+2372,2023-11-28,KW Richardson,dfc4d8b5,Australia,India,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,34,22,1,8,3.67,9.26
+2372,2023-11-28,M Prasidh Krishna,85e0cf10,India,Australia,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,68,26,0,4,4.33,15.7
+2372,2023-11-28,NT Ellis,9eb1455b,Australia,India,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,36,26,0,8,4.33,8.31
+2372,2023-11-28,Ravi Bishnoi,df064e1a,India,Australia,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,35,27,2,7,4.5,7.78
+2372,2023-11-28,T Sangha,52c952d9,Australia,India,"Barsapara Cricket Stadium, Guwahati",T20,Australia,Guwahati,2023/24,international,42,25,0,7,4.17,10.07
+2379,2023-12-01,T Sangha,52c952d9,Australia,India,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,30,25,2,8,4.17,7.19
+2379,2023-12-01,Ravi Bishnoi,df064e1a,India,Australia,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,17,24,1,13,4.0,4.25
+2379,2023-12-01,AR Patel,2e171977,India,Australia,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,17,24,3,12,4.0,4.25
+2379,2023-12-01,AM Hardie,d405c0d5,Australia,India,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,21,19,1,9,3.17,6.62
+2379,2023-12-01,Mukesh Kumar,2cffab74,India,Australia,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,43,28,0,8,4.67,9.21
+2379,2023-12-01,MW Short,a90e53ec,Australia,India,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,10,6,0,1,1.0,10.0
+2379,2023-12-01,JP Behrendorff,4933f499,Australia,India,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,36,25,3,8,4.17,8.63
+2379,2023-12-01,CJ Green,19b9f399,Australia,India,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,37,24,0,6,4.0,9.25
+2379,2023-12-01,BJ Dwarshuis,e1b9f3a9,Australia,India,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,40,25,3,9,4.17,9.59
+2379,2023-12-01,Avesh Khan,eef2536f,India,Australia,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,33,26,1,7,4.33,7.62
+2379,2023-12-01,DL Chahar,23eeb873,India,Australia,"Shaheed Veer Narayan Singh International Stadium, Raipur",T20,India,Raipur,2023/24,international,44,24,2,7,4.0,11.0
+2380,2023-12-03,AM Hardie,d405c0d5,Australia,India,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,21,24,1,14,4.0,5.25
+2380,2023-12-03,AR Patel,2e171977,India,Australia,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,14,24,1,11,4.0,3.5
+2380,2023-12-03,Avesh Khan,eef2536f,India,Australia,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,39,24,0,8,4.0,9.75
+2380,2023-12-03,BJ Dwarshuis,e1b9f3a9,Australia,India,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,30,25,2,10,4.17,7.19
+2380,2023-12-03,JP Behrendorff,4933f499,Australia,India,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,40,24,2,5,4.0,10.0
+2380,2023-12-03,Mukesh Kumar,2cffab74,India,Australia,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,32,24,3,11,4.0,8.0
+2380,2023-12-03,NT Ellis,9eb1455b,Australia,India,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,43,26,2,7,4.33,9.93
+2380,2023-12-03,Ravi Bishnoi,df064e1a,India,Australia,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,29,24,2,8,4.0,7.25
+2380,2023-12-03,T Sangha,52c952d9,Australia,India,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,26,24,1,9,4.0,6.5
+2380,2023-12-03,Arshdeep Singh,244048f6,India,Australia,"M Chinnaswamy Stadium, Bengaluru",T20,India,Bengaluru,2023/24,international,40,25,2,8,4.17,9.59
+2721,2024-06-24,JJ Bumrah,462411b3,India,Australia,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,31,24,1,9,4.0,7.75
+2721,2024-06-24,JR Hazlewood,03806cf8,Australia,India,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,15,24,1,12,4.0,3.75
+2721,2024-06-24,A Zampa,14f96089,Australia,India,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,41,24,0,2,4.0,10.25
+2721,2024-06-24,AR Patel,2e171977,India,Australia,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,21,18,1,9,3.0,7.0
+2721,2024-06-24,Arshdeep Singh,244048f6,India,Australia,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,41,26,3,11,4.33,9.47
+2721,2024-06-24,HH Pandya,dbe50b21,India,Australia,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,47,25,0,8,4.17,11.27
+2721,2024-06-24,RA Jadeja,fe93fd9d,India,Australia,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,17,6,0,0,1.0,17.0
+2721,2024-06-24,PJ Cummins,ded9240e,Australia,India,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,48,24,0,5,4.0,12.0
+2721,2024-06-24,MP Stoinis,d9273ee7,Australia,India,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,56,25,2,6,4.17,13.43
+2721,2024-06-24,MA Starc,3fb19989,Australia,India,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,45,25,2,12,4.17,10.79
+2721,2024-06-24,Kuldeep Yadav,8d2c70ad,India,Australia,"Daren Sammy National Cricket Stadium, Gros Islet, St Lucia",T20,India,Gros Islet,2024,international,24,24,2,9,4.0,6.0
+4853,2025-03-04,TM Head,12b610c2,Australia,India,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,6,6,0,0,1.0,6.0
+4853,2025-03-04,T Sangha,52c952d9,Australia,India,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,41,36,0,15,6.0,6.83
+4853,2025-03-04,RA Jadeja,fe93fd9d,India,Australia,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,40,48,2,23,8.0,5.0
+4853,2025-03-04,NT Ellis,9eb1455b,Australia,India,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,49,62,2,31,10.33,4.74
+4853,2025-03-04,Mohammed Shami,8cf9814c,India,Australia,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,48,62,3,34,10.33,4.65
+4853,2025-03-04,Kuldeep Yadav,8d2c70ad,India,Australia,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,44,49,0,26,8.17,5.39
+4853,2025-03-04,CV Varun,5b7ab5a9,India,Australia,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,49,60,2,28,10.0,4.9
+4853,2025-03-04,GJ Maxwell,b681e71e,Australia,India,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,35,37,0,12,6.17,5.67
+4853,2025-03-04,C Connolly,fe366f34,Australia,India,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,37,48,1,21,8.0,4.62
+4853,2025-03-04,BJ Dwarshuis,e1b9f3a9,Australia,India,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,39,43,1,20,7.17,5.44
+4853,2025-03-04,AR Patel,2e171977,India,Australia,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,43,48,1,25,8.0,5.38
+4853,2025-03-04,A Zampa,14f96089,Australia,India,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,60,60,2,25,10.0,6.0
+4853,2025-03-04,HH Pandya,dbe50b21,India,Australia,Dubai International Cricket Stadium,ODI,India,Dubai,2024/25,international,40,37,2,17,6.17,6.48
+4911,2025-10-19,MW Short,a90e53ec,Australia,India,Perth Stadium,ODI,Australia,Perth,2025/26,international,17,6,0,0,1.0,17.0
+4911,2025-10-19,Washington Sundar,f19ccfad,India,Australia,Perth Stadium,ODI,Australia,Perth,2025/26,international,14,13,1,6,2.17,6.45
+4911,2025-10-19,Nithish Kumar Reddy,aad0c365,India,Australia,Perth Stadium,ODI,Australia,Perth,2025/26,international,16,13,0,4,2.17,7.37
+4911,2025-10-19,NT Ellis,9eb1455b,Australia,India,Perth Stadium,ODI,Australia,Perth,2025/26,international,30,31,1,13,5.17,5.8
+4911,2025-10-19,MP Kuhnemann,7b953689,Australia,India,Perth Stadium,ODI,Australia,Perth,2025/26,international,26,24,3,9,4.0,6.5
+4911,2025-10-19,Mohammed Siraj,2f49c897,India,Australia,Perth Stadium,ODI,Australia,Perth,2025/26,international,21,25,0,18,4.17,5.04
+4911,2025-10-19,MA Starc,3fb19989,Australia,India,Perth Stadium,ODI,Australia,Perth,2025/26,international,22,37,1,24,6.17,3.57
+4911,2025-10-19,JR Hazlewood,03806cf8,Australia,India,Perth Stadium,ODI,Australia,Perth,2025/26,international,21,46,2,34,7.67,2.74
+4911,2025-10-19,Harshit Rana,77b1aa15,India,Australia,Perth Stadium,ODI,Australia,Perth,2025/26,international,27,24,0,13,4.0,6.75
+4911,2025-10-19,Arshdeep Singh,244048f6,India,Australia,Perth Stadium,ODI,Australia,Perth,2025/26,international,32,32,1,17,5.33,6.0
+4911,2025-10-19,AR Patel,2e171977,India,Australia,Perth Stadium,ODI,Australia,Perth,2025/26,international,21,24,1,11,4.0,5.25
+4911,2025-10-19,MJ Owen,f2c936d7,Australia,India,Perth Stadium,ODI,Australia,Perth,2025/26,international,20,18,2,6,3.0,6.67
+4913,2025-10-23,XC Bartlett,3b53243a,Australia,India,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,39,61,3,37,10.17,3.83
+4913,2025-10-23,Washington Sundar,f19ccfad,India,Australia,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,37,43,2,16,7.17,5.16
+4913,2025-10-23,TM Head,12b610c2,Australia,India,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,16,13,0,0,2.17,7.37
+4913,2025-10-23,Mohammed Siraj,2f49c897,India,Australia,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,50,60,1,33,10.0,5.0
+4913,2025-10-23,MW Short,a90e53ec,Australia,India,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,24,18,0,3,3.0,8.0
+4913,2025-10-23,MJ Owen,f2c936d7,Australia,India,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,20,12,0,5,2.0,10.0
+4913,2025-10-23,Nithish Kumar Reddy,aad0c365,India,Australia,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,25,18,0,6,3.0,8.33
+4913,2025-10-23,JR Hazlewood,03806cf8,Australia,India,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,29,60,0,43,10.0,2.9
+4913,2025-10-23,Harshit Rana,77b1aa15,India,Australia,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,59,50,2,18,8.33,7.08
+4913,2025-10-23,C Connolly,fe366f34,Australia,India,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,11,18,0,10,3.0,3.67
+4913,2025-10-23,Arshdeep Singh,244048f6,India,Australia,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,41,53,2,29,8.83,4.64
+4913,2025-10-23,AR Patel,2e171977,India,Australia,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,53,60,1,25,10.0,5.3
+4913,2025-10-23,A Zampa,14f96089,Australia,India,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,60,60,4,25,10.0,6.0
+4913,2025-10-23,MA Starc,3fb19989,Australia,India,Adelaide Oval,ODI,Australia,Adelaide,2025/26,international,65,63,2,24,10.5,6.19
+4915,2025-10-25,Mohammed Siraj,2f49c897,India,Australia,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,25,30,1,18,5.0,5.0
+4915,2025-10-25,MW Short,a90e53ec,Australia,India,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,29,25,0,7,4.17,6.95
+4915,2025-10-25,MJ Owen,f2c936d7,Australia,India,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,2,6,0,4,1.0,2.0
+4915,2025-10-25,MA Starc,3fb19989,Australia,India,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,32,34,0,17,5.67,5.64
+4915,2025-10-25,M Prasidh Krishna,85e0cf10,India,Australia,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,52,44,1,18,7.33,7.09
+4915,2025-10-25,C Connolly,fe366f34,Australia,India,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,36,30,0,11,5.0,7.2
+4915,2025-10-25,JR Hazlewood,03806cf8,Australia,India,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,23,36,1,24,6.0,3.83
+4915,2025-10-25,Harshit Rana,77b1aa15,India,Australia,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,46,53,4,28,8.83,5.21
+4915,2025-10-25,AR Patel,2e171977,India,Australia,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,19,36,1,22,6.0,3.17
+4915,2025-10-25,A Zampa,14f96089,Australia,India,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,50,60,0,30,10.0,5.0
+4915,2025-10-25,NT Ellis,9eb1455b,Australia,India,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,65,48,0,11,8.0,8.12
+4915,2025-10-25,Kuldeep Yadav,8d2c70ad,India,Australia,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,50,60,1,26,10.0,5.0
+4915,2025-10-25,Washington Sundar,f19ccfad,India,Australia,Sydney Cricket Ground,ODI,India,Sydney,2025/26,international,44,60,2,25,10.0,4.4
