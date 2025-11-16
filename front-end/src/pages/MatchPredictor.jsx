@@ -3,7 +3,7 @@ import { fetchMatchPrediction, fetchTeams, fetchVenues } from "../api/xi.js";
 
 const MATCH_TYPES = ["T20", "ODI"];
 
-export default function MatchPredictorPage({ onNavigateXI }) {
+export default function MatchPredictorPage() {
   const [matchType, setMatchType] = useState(MATCH_TYPES[0]);
   const [teams, setTeams] = useState([]);
   const [venues, setVenues] = useState([]);
