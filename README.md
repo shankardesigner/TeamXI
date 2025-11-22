@@ -16,6 +16,7 @@ app/
 ├── models/               # trained LightGBM models (batting / bowling)
 ├── train/                # model training scripts (Colab)
 ├── pipeline/             # data prep scripts that build data/proceed/
+├── tests/                # pytest suite + trimmed fixtures
 ├── front-end/            # React + Vite UI
 └── Presentation/         # project deck (pdf + pptx)
 ```
@@ -67,6 +68,20 @@ python pipeline/crawl_players_by_country.py        # -> data/players/ squads
 Steps 1–4 are a chain, each reading the previous step's output. Step 5 is independent
 and hits the network. The intermediate `last_10_years_data.csv` is ~123 MB and the
 four feature tables total ~16 MB.
+
+## Tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest          # backend: engine + API contract
+cd front-end && npm run lint && npm run build
+```
+
+Tests run against trimmed fixtures in `tests/fixtures/` (India vs Australia,
+~190 KB), so they need neither the real `data/` nor a network. Dates are pinned
+to 2025-10-31 so the rolling form window can't slide off the fixtures.
+
+CI runs both suites on every push and PR — see `.github/workflows/ci.yml`.
 
 ## Training
 
