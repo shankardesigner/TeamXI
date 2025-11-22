@@ -81,8 +81,6 @@ Tests run against trimmed fixtures in `tests/fixtures/` (India vs Australia,
 ~190 KB), so they need neither the real `data/` nor a network. Dates are pinned
 to 2025-10-31 so the rolling form window can't slide off the fixtures.
 
-CI runs both suites on every push and PR — see `.github/workflows/ci.yml`.
-
 ## Training
 
 `train/batting_train.py` and `train/bowling_train.py` were run in Google Colab and
