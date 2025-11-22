@@ -15,3 +15,6 @@ dist/
 
 # Data (not pushed — rebuild with pipeline/, see README)
 /data/
+
+# Build output
+front-end/dist/
