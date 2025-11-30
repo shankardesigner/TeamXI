@@ -13,8 +13,8 @@
   color: #ffffff;
 
   /* hue taken from the XI panel blue; lightness steps scale by 1.618 */
-  --blue-1: rgb(1, 30, 102);
-  --blue-2: hsl(223 92% 27%);
+  --blue-1: rgb(10, 16, 42);
+  --blue-2: hsl(228 46% 17%);
   --blue-3: rgb(13, 53, 163);
   --blue-4: hsl(224 72% 57%);
   --blue-5: hsl(224 60% 88%);
@@ -516,7 +516,7 @@ body {
   gap: 24px;
   padding: 28px;
   width: 100%;
-  background: linear-gradient(155deg, var(--blue-3), var(--blue-1));
+  background: rgba(10, 16, 42, 0.78);
 }
 
 .match-header {
