@@ -11,7 +11,17 @@
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   color: #ffffff;
-  background-color: #0b0b0f;
+
+  /* hue taken from the XI panel blue; lightness steps scale by 1.618 */
+  --blue-1: hsl(224 62% 6%);
+  --blue-2: hsl(224 60% 10%);
+  --blue-3: hsl(224 58% 16%);
+  --blue-4: hsl(224 55% 25%);
+  --blue-5: hsl(224 52% 41%);
+  --surface: rgba(255, 255, 255, 0.07);
+  --border-soft: rgba(255, 255, 255, 0.14);
+
+  background-color: var(--blue-1);
 }
 
 *,
@@ -354,7 +364,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #050812;
+  background: var(--blue-1);
   color: #ffffff;
   width: 100vw;
 }
@@ -365,7 +375,7 @@ body {
   justify-content: space-between;
   gap: 24px;
   padding: 20px 28px;
-  background: linear-gradient(135deg, rgba(6, 12, 32, 0.96), rgba(14, 28, 64, 0.92));
+  background: linear-gradient(135deg, var(--blue-2), var(--blue-1));
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 14px 32px rgba(6, 10, 28, 0.42);
   position: sticky;
@@ -472,7 +482,7 @@ body {
   width: 100%;
   flex: 1;
   min-height: 100vh;
-  background: #0b0b0f;
+  background: var(--blue-1);
   color: #ffffff;
 }
 
@@ -506,7 +516,7 @@ body {
   gap: 24px;
   padding: 28px;
   width: 100%;
-  background: linear-gradient(155deg, #10306e, #050f30);
+  background: linear-gradient(155deg, var(--blue-3), var(--blue-1));
 }
 
 .match-header {
@@ -514,8 +524,8 @@ body {
   gap: 24px;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
   align-items: end;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
   border-radius: 24px;
   padding: 28px 32px;
   box-shadow: 0 18px 38px rgba(6, 10, 28, 0.42);
