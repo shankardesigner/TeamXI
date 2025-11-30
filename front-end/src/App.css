@@ -13,11 +13,11 @@
   color: #ffffff;
 
   /* hue taken from the XI panel blue; lightness steps scale by 1.618 */
-  --blue-1: hsl(224 66% 12%);
-  --blue-2: hsl(224 64% 19%);
-  --blue-3: hsl(224 62% 31%);
-  --blue-4: hsl(224 58% 50%);
-  --blue-5: hsl(224 54% 81%);
+  --blue-1: rgb(1, 30, 102);
+  --blue-2: hsl(223 92% 27%);
+  --blue-3: rgb(13, 53, 163);
+  --blue-4: hsl(224 72% 57%);
+  --blue-5: hsl(224 60% 88%);
   --surface: rgba(255, 255, 255, 0.07);
   --border-soft: rgba(255, 255, 255, 0.14);
 
