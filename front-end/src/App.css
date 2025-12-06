@@ -1434,3 +1434,48 @@ body {
   }
 }
 
+
+/* XI predictor button: animated gradient outline, same gradient and cadence
+   as the .nav-wordmark logo. */
+.app-shell .predict-button {
+  border-color: transparent;
+}
+
+.app-shell .predict-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(120deg, #ff3366 0%, #ff7b36 25%, #2f9bff 60%, #003cff 100%);
+  background-size: 220% 220%;
+  animation: predictBorderFlow 6s ease-in-out infinite alternate;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.app-shell .predict-button:disabled::before {
+  animation: none;
+  opacity: 0.35;
+}
+
+@keyframes predictBorderFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .predict-button::before {
+    animation: none;
+  }
+}
