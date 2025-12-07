@@ -1435,13 +1435,15 @@ body {
 }
 
 
-/* XI predictor button: animated gradient outline, same gradient and cadence
+/* Predict buttons: animated gradient outline, same gradient and cadence
    as the .nav-wordmark logo. */
-.app-shell .predict-button {
+.app-shell .predict-button,
+.match-shell .match-predict-button {
   border-color: transparent;
 }
 
-.app-shell .predict-button::before {
+.app-shell .predict-button::before,
+.match-shell .match-predict-button::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1457,7 +1459,8 @@ body {
   pointer-events: none;
 }
 
-.app-shell .predict-button:disabled::before {
+.app-shell .predict-button:disabled::before,
+.match-shell .match-predict-button:disabled::before {
   animation: none;
   opacity: 0.35;
 }
@@ -1475,7 +1478,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-shell .predict-button::before {
+  .app-shell .predict-button::before,
+  .match-shell .match-predict-button::before {
     animation: none;
   }
 }
