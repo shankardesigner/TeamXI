@@ -1437,13 +1437,11 @@ body {
 
 /* Predict buttons: animated gradient outline, same gradient and cadence
    as the .nav-wordmark logo. */
-.app-shell .predict-button,
-.match-shell .match-predict-button {
+.app-shell .predict-button {
   border-color: transparent;
 }
 
-.app-shell .predict-button::before,
-.match-shell .match-predict-button::before {
+.app-shell .predict-button::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1459,8 +1457,7 @@ body {
   pointer-events: none;
 }
 
-.app-shell .predict-button:disabled::before,
-.match-shell .match-predict-button:disabled::before {
+.app-shell .predict-button:disabled::before {
   animation: none;
   opacity: 0.35;
 }
@@ -1479,7 +1476,36 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .app-shell .predict-button::before,
-  .match-shell .match-predict-button::before {
+  .nav-link::before {
     animation: none;
   }
+}
+
+/* Header pills: same sweep as the logo, cool for XI, warm for Beat the AI. */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background-size: 220% 220%;
+  animation: predictBorderFlow 6s ease-in-out infinite alternate;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.nav-link[href="/xi"]::before {
+  background-image: linear-gradient(120deg, #2f9bff 0%, #003cff 50%, #2f9bff 100%);
+}
+
+.nav-link[href="/beat"]::before {
+  background-image: linear-gradient(120deg, #ff3366 0%, #ff7b36 50%, #ff3366 100%);
+  animation-delay: -3s;
 }
