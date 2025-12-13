@@ -1505,6 +1505,16 @@ body {
   background-image: linear-gradient(120deg, #2f9bff 0%, #003cff 50%, #2f9bff 100%);
 }
 
+.nav-link[href="/beat"] {
+  background: rgba(179, 20, 26, 0.55);
+  color: #ffeef0;
+}
+
+.nav-link[href="/beat"]:hover {
+  background: rgba(179, 20, 26, 0.72);
+  color: #ffffff;
+}
+
 .nav-link[href="/beat"]::before {
   background-image: linear-gradient(120deg, #ff3366 0%, #ff7b36 50%, #ff3366 100%);
   animation-delay: -3s;
