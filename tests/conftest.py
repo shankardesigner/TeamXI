@@ -20,9 +20,9 @@ def selector() -> XISelector:
 def client(selector):
     from fastapi.testclient import TestClient
 
-    import api
+    import server
 
-    api.app.dependency_overrides[api.get_selector] = lambda: selector
-    with TestClient(api.app) as c:
+    server.app.dependency_overrides[server.get_selector] = lambda: selector
+    with TestClient(server.app) as c:
         yield c
-    api.app.dependency_overrides.clear()
+    server.app.dependency_overrides.clear()

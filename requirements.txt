@@ -1,16 +1,8 @@
-# Runtime (API server)
+# Runtime (what the deployed API imports)
 fastapi>=0.111.0
-uvicorn[standard]>=0.30.1
+pydantic>=2.7.0
 pandas>=1.5.3
 numpy>=1.21.6
-pydantic>=2.7.0
 
-# Data pipeline / training
-tqdm>=4.65.0
-pyarrow>=12.0.0
-scikit-learn>=1.2.2
-lightgbm>=4.0.0
-joblib>=1.2.0
-matplotlib>=3.7.0
-seaborn>=0.12.2
-requests>=2.31.0
+# Local dev server only (Vercel provides its own ASGI host)
+uvicorn[standard]>=0.30.1

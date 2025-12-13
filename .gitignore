@@ -18,3 +18,6 @@ dist/
 
 # Build output
 front-end/dist/
+
+# Vercel
+.vercel
