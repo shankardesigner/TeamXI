@@ -9,8 +9,10 @@ from fastapi import FastAPI  # noqa: E402
 
 from server import app as api_app  # noqa: E402
 
-# Vercel rewrites /api/* here. Mount under /api first; the root mount is a
-# fallback in case the platform strips the prefix before invoking us.
+# Vercel rewrites /api/<path> to /api/index/<path>, so the app is mounted at
+# both prefixes: /api/index for the rewritten path, /api in case the platform
+# forwards the original one. Nothing is mounted at "/" — that would make this
+# function answer every request and shadow the static frontend.
 app = FastAPI()
+app.mount("/api/index", api_app)
 app.mount("/api", api_app)
-app.mount("/", api_app)
