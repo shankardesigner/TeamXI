@@ -1,18 +1,36 @@
-"""Vercel entrypoint. The repo root holds server.py and teamxi.py, so put it on
-the path before importing."""
+"""Vercel entrypoint.
+
+Vercel routes only the exact path /api/index to this file, and a rewrite
+replaces the request path rather than preserving it. So vercel.json forwards the
+real path as ?__path=, and this shim puts it back on the ASGI scope before
+handing off to the FastAPI app.
+"""
 import sys
 from pathlib import Path
+from urllib.parse import parse_qsl, urlencode
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from fastapi import FastAPI  # noqa: E402
-
 from server import app as api_app  # noqa: E402
 
-# Vercel rewrites /api/<path> to /api/index/<path>, so the app is mounted at
-# both prefixes: /api/index for the rewritten path, /api in case the platform
-# forwards the original one. Nothing is mounted at "/" — that would make this
-# function answer every request and shadow the static frontend.
-app = FastAPI()
-app.mount("/api/index", api_app)
-app.mount("/api", api_app)
+PATH_PARAM = "__path"
+
+
+class RestoreOriginalPath:
+    def __init__(self, inner):
+        self.inner = inner
+
+    async def __call__(self, scope, receive, send):
+        if scope.get("type") == "http":
+            params = parse_qsl(scope.get("query_string", b"").decode(), keep_blank_values=True)
+            forwarded = [v for k, v in params if k == PATH_PARAM]
+            if forwarded:
+                scope = dict(scope)
+                scope["path"] = "/" + forwarded[0].lstrip("/")
+                scope["raw_path"] = scope["path"].encode()
+                rest = [(k, v) for k, v in params if k != PATH_PARAM]
+                scope["query_string"] = urlencode(rest).encode()
+        await self.inner(scope, receive, send)
+
+
+app = RestoreOriginalPath(api_app)
