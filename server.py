@@ -15,9 +15,19 @@ from teamxi import PlayerProjection, XISelector
 LOGGER = logging.getLogger("teamxi-api")
 
 
+def find_data_root() -> Path:
+    """Locate the directory holding data/proceed. Serverless bundles do not
+    always keep the module next to the data, so search instead of assuming."""
+    here = Path(__file__).resolve().parent
+    for candidate in [here, *here.parents, Path.cwd(), *Path.cwd().parents]:
+        if (candidate / "data" / "proceed").is_dir():
+            return candidate
+    return here
+
+
 def get_selector() -> XISelector:
     if not hasattr(get_selector, "_instance"):
-        root_dir = Path(__file__).resolve().parent
+        root_dir = find_data_root()
         LOGGER.info("Initialising XISelector with root_dir=%s", root_dir)
         get_selector._instance = XISelector(root_dir=root_dir)
     return get_selector._instance
@@ -144,6 +154,26 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/diag")
+def diag() -> dict:
+    """Reports what the running process can actually see on disk."""
+    root = find_data_root()
+    needed = [
+        "data/proceed/player_features_batting.csv",
+        "data/proceed/player_features_batting_form.csv",
+        "data/proceed/player_features_bowling.csv",
+        "data/proceed/player_features_bowling_form.csv",
+        "data/players/active_players.json",
+    ]
+    return {
+        "module": str(Path(__file__).resolve()),
+        "cwd": str(Path.cwd()),
+        "resolved_root": str(root),
+        "files": {f: (root / f).is_file() for f in needed},
+        "root_listing": sorted(p.name for p in root.iterdir())[:25],
+    }
 
 
 @app.get("/healthz")
