@@ -13,8 +13,18 @@ dist/
 # OS
 .DS_Store
 
-# Data (not pushed — rebuild with pipeline/, see README)
-/data/
+# Data: only the small runtime tables the API needs are tracked.
+# raw_json/ (2.7 GB), vis/ and last_10_years_data.csv (123 MB) stay out.
+/data/*
+!/data/proceed/
+!/data/players/
+/data/proceed/*
+!/data/proceed/player_features_batting.csv
+!/data/proceed/player_features_batting_form.csv
+!/data/proceed/player_features_bowling.csv
+!/data/proceed/player_features_bowling_form.csv
+/data/players/*
+!/data/players/active_players.json
 
 # Build output
 front-end/dist/
