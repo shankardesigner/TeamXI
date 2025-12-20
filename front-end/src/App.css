@@ -1519,3 +1519,94 @@ body {
   background-image: linear-gradient(120deg, #ff3366 0%, #ff7b36 50%, #ff3366 100%);
   animation-delay: -3s;
 }
+
+
+/* ------------------------------------------------------------------ */
+/* Light theme — homepage only. Scoped via :has(.match-shell) so the   */
+/* XI predictor and Beat the AI pages keep the dark treatment.         */
+/* ------------------------------------------------------------------ */
+.app-root:has(.match-shell) {
+  background: #eef2f8;
+  color: #0f172a;
+}
+
+.app-root:has(.match-shell) .site-nav {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.app-root:has(.match-shell) .nav-link {
+  background: rgba(15, 23, 42, 0.05);
+  color: #334155;
+}
+
+.app-root:has(.match-shell) .nav-link:hover {
+  background: rgba(15, 23, 42, 0.1);
+  color: #0f172a;
+}
+
+.app-root:has(.match-shell) .site-footer {
+  color: #64748b;
+}
+
+.match-shell {
+  background: #eef2f8;
+  color: #0f172a;
+}
+
+.match-header,
+.match-summary,
+.team-insight-card,
+.placeholder-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+}
+
+.match-headline h1,
+.team-card-header h3,
+.match-summary h2 {
+  color: #0f172a;
+}
+
+.match-headline p,
+.match-control-group label,
+.team-card-header p,
+.team-probability span,
+.summary-text,
+.insight-columns li,
+.key-players li,
+.placeholder-card p,
+.metric-label {
+  color: #475569;
+}
+
+.match-control-group select {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+}
+
+.metric {
+  background: rgba(15, 23, 42, 0.04);
+  color: #0f172a;
+}
+
+.match-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+.loading-overlay {
+  background: rgba(238, 242, 248, 0.72);
+}
+
+.app-root:has(.match-shell) .loading-text,
+.app-root:has(.match-shell) .chip {
+  color: #334155;
+}
+
+/* Coloured tiles and probability bars keep their saturated fills, so their
+   own light-on-dark text stays correct — only the neutral surfaces flip. */
