@@ -1,0 +1,22 @@
+# Keeps the serverless function under the 225 MB bundle limit.
+# Everything here is either build-time only or never touched by the API.
+
+Presentation/
+train/
+tests/
+pipeline/
+requirements-pipeline.txt
+
+# Trained models are not loaded by the serving path (teamxi.py imports no
+# joblib). Re-include models/ if that ever changes.
+models/
+
+# Large data that the API does not read
+data/raw_json/
+data/vis/
+
+# Regenerated during the build
+front-end/node_modules/
+front-end/dist/
+.venv/
+__pycache__/
