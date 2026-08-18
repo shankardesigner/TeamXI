@@ -1,17 +1,30 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { fetchMatchPrediction, fetchTeams, fetchVenues } from "../api/xi.js";
 
 const MATCH_TYPES = ["T20", "ODI"];
 
+// Shown automatically on first load: Australia vs Bangladesh, T20, Mirpur.
+const DEFAULT_MATCH_TYPE = "T20";
+const DEFAULT_TEAM_A = "Australia";
+const DEFAULT_TEAM_B = "Bangladesh";
+const DEFAULT_VENUE_PATTERN = /shere?[\s-]*bangla/i;
+
+function matchName(options, wanted) {
+  return options.find((option) => option.toLowerCase() === wanted.toLowerCase());
+}
+
 export default function MatchPredictorPage() {
-  const [matchType, setMatchType] = useState(MATCH_TYPES[0]);
+  const [matchType, setMatchType] = useState(DEFAULT_MATCH_TYPE);
   const [teams, setTeams] = useState([]);
   const [venues, setVenues] = useState([]);
   const [teamSelection, setTeamSelection] = useState({ teamA: "", teamB: "" });
   const [selectedVenue, setSelectedVenue] = useState("");
   const [loading, setLoading] = useState(false);
+  const [bootstrapping, setBootstrapping] = useState(true);
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
+  // True until the first-load defaults have been applied and predicted once.
+  const applyDefaultsRef = useRef(true);
 
   const probabilities = useMemo(() => {
     if (!result) {
@@ -34,6 +47,10 @@ export default function MatchPredictorPage() {
         setTeamSelection((current) => {
           const next = { ...current };
           const available = response.teams;
+          if (applyDefaultsRef.current) {
+            next.teamA = matchName(available, DEFAULT_TEAM_A) || next.teamA;
+            next.teamB = matchName(available, DEFAULT_TEAM_B) || next.teamB;
+          }
           if (!available.includes(next.teamA)) {
             next.teamA = available[0] || "";
           }
@@ -46,6 +63,8 @@ export default function MatchPredictorPage() {
       } catch (err) {
         if (!cancelled) {
           setError(err.message || "Failed to load teams");
+          applyDefaultsRef.current = false;
+          setBootstrapping(false);
         }
       }
     }
@@ -68,14 +87,24 @@ export default function MatchPredictorPage() {
         if (cancelled) return;
         setVenues(response.venues);
         setError("");
-        setSelectedVenue((current) =>
-          response.venues.includes(current) ? current : response.venues[0] || "",
-        );
+        setSelectedVenue((current) => {
+          if (applyDefaultsRef.current) {
+            const preferred = response.venues.find((venue) =>
+              DEFAULT_VENUE_PATTERN.test(venue),
+            );
+            if (preferred) return preferred;
+          }
+          return response.venues.includes(current)
+            ? current
+            : response.venues[0] || "";
+        });
       } catch (err) {
         if (!cancelled) {
           setError(err.message || "Failed to load venues");
           setVenues([]);
           setSelectedVenue("");
+          applyDefaultsRef.current = false;
+          setBootstrapping(false);
         }
       }
     }
@@ -85,7 +114,7 @@ export default function MatchPredictorPage() {
     };
   }, [matchType, teamSelection]);
 
-  const handlePredict = async () => {
+  const handlePredict = useCallback(async () => {
     if (!teamSelection.teamA || !teamSelection.teamB || !selectedVenue) {
       setError("Select teams and venue first");
       return;
@@ -106,8 +135,18 @@ export default function MatchPredictorPage() {
       setResult(null);
     } finally {
       setLoading(false);
+      setBootstrapping(false);
     }
-  };
+  }, [matchType, teamSelection, selectedVenue]);
+
+  // Once the dropdowns have filled in on first load, predict straight away so
+  // the homepage opens on a live result instead of an empty placeholder.
+  useEffect(() => {
+    if (!applyDefaultsRef.current) return;
+    if (!teamSelection.teamA || !teamSelection.teamB || !selectedVenue) return;
+    applyDefaultsRef.current = false;
+    handlePredict();
+  }, [teamSelection, selectedVenue, handlePredict]);
 
   const handleTeamChange = (panelKey) => (event) => {
     const value = event.target.value;
@@ -218,12 +257,13 @@ export default function MatchPredictorPage() {
             onClick={handlePredict}
             disabled={
               loading ||
+              bootstrapping ||
               !teamSelection.teamA ||
               !teamSelection.teamB ||
               !selectedVenue
             }
           >
-            {loading ? "Predicting…" : "Predict Outcome"}
+            {loading || bootstrapping ? "Predicting…" : "Predict Outcome"}
           </button>
         </div>
       </section>
@@ -231,7 +271,7 @@ export default function MatchPredictorPage() {
       <div className="match-body">
         {error ? <div className="match-error">{error}</div> : null}
 
-        {loading ? (
+        {loading || bootstrapping ? (
           <div className="loading-overlay" aria-live="polite">
             <div className="spinner" />
             <span className="loading-text">Predicting outcome…</span>
@@ -350,7 +390,7 @@ export default function MatchPredictorPage() {
               ))}
             </div>
           </section>
-        ) : (
+        ) : loading || bootstrapping ? null : (
           <section className="match-placeholder">
             <div className="placeholder-card">
               <h2>Select match details to see the projected winner</h2>
